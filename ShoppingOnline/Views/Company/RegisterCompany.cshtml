@@ -45,13 +45,15 @@
                         </div>
                     </div>
                     <div class="field-group">
-                        <div class="content-input-field">
-                            <select id="country" class="form-control" asp-for="@Model.CountryId" asp-items="@Model.CountryList"></select>
+
+                        <div class="content-input-field" style="display: inline-flex">
+                            <label style="min-width: 50%">Country </label>       <select id="country" class="form-control" style="min-width: 200px" asp-for="@Model.CountryId" asp-items="@Model.CountryList"></select>
                         </div>
                     </div>
-                     <div class="field-group">
-                        <div class="content-input-field">
-                            <select id="BussinessType" class="form-control" asp-for="@Model.BusinessTypeId" asp-items="@Model.BusinessTypeList"></select>
+                    <br/>
+                    <div class="field-group">
+                        <div class="content-input-field" style="display: inline-flex">
+                            <label style="min-width: 43%">Business  Type    </label>     <select id="BussinessType" style="min-width: 200px" class="form-control" asp-for="@Model.BusinessTypeId" asp-items="@Model.BusinessTypeList"></select>
                         </div>
                     </div>
                     <div class="content-input-field">
@@ -98,3 +100,8 @@
     </div>
 
 </section>
+<style>
+    .main-sec {
+        min-height: auto !important;
+    }
+</style>

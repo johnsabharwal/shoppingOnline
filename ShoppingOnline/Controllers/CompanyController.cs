@@ -29,6 +29,11 @@ namespace ShoppingOnline.Controllers
         {
             return View();
         }
+
+        public IActionResult CompanyDashboard()
+        {
+            return View();
+        }
         public IActionResult Login(string emailId, string password)
         {
             var result = _userService.CompanyLogin(emailId, password);
