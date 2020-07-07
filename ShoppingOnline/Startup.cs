@@ -28,7 +28,7 @@ namespace ShoppingOnline
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            var connection = @"Server=LAPTOP-EK0HL9J6;Database=ShoppingOnline;Trusted_Connection=True;";
+            var connection = @"Server=LAPTOP-QQO2OPJJ;Database=ShoppingOnline;Trusted_Connection=True;";
             services.AddDbContext<DBContext>(options => options.UseSqlServer(connection));
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IMasterDataService, MasterDataService>();
