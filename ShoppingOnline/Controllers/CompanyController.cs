@@ -78,5 +78,56 @@ namespace ShoppingOnline.Controllers
             }
 
         }
+        public IActionResult Departments()
+        {
+            ViewBag.Class = "inner-page";
+
+            return View();
+        }
+        public ActionResult Students()
+        {
+            Models.BaseDataTable dataTable = new Models.BaseDataTable();
+           // dataTable.draw = int.Parse(Request.QueryString["draw"]);
+
+            List<Models.Department> students = new List<Models.Department>();
+            students.Add(new Models.Department { Id = 1, Name = "Mike", SurName = "Mikey", ClassRoom = "8A" });
+            students.Add(new Models.Department { Id = 2, Name = "John", SurName = "Salary", ClassRoom = "8B" });
+            students.Add(new Models.Department { Id = 3, Name = "Steve", SurName = "Brown", ClassRoom = "7A" });
+
+            //string filterName = Request.QueryString["name"];
+            //string filterSurName = Request.QueryString["surname"];
+            //string filterClassroom = Request.QueryString["classroom"];
+
+            var result = from s in students
+                //where (string.IsNullOrEmpty(filterName) || s.Name.Equals(filterName))
+                //      && (string.IsNullOrEmpty(filterSurName) || s.SurName.Equals(filterSurName))
+                //      && (string.IsNullOrEmpty(filterClassroom) || s.ClassRoom.Equals(filterClassroom))
+                select s;
+
+            dataTable.data = result.ToArray();
+            dataTable.recordsTotal = students.Count;
+            dataTable.recordsFiltered = result.Count();
+            return Json(dataTable);
+        }
+        public IActionResult Officers()
+        {
+            return View();
+        }
+        public IActionResult Employees()
+        {
+            return View();
+        }
+        public IActionResult Suppliers()
+        {
+            return View();
+        }
+        public IActionResult Products()
+        {
+            return View();
+        }
+        public IActionResult Promoters()
+        {
+            return View();
+        }
     }
 }
