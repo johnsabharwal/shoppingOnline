@@ -41,6 +41,11 @@
                     </div>
                     <div class="field-group">
                         <div class="content-input-field">
+                            <input asp-for="@Model.Password" type="password" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="field-group">
+                        <div class="content-input-field">
                             <input asp-for="@Model.Contact" type="text" placeholder="Contact Number">
                         </div>
                     </div>
@@ -50,7 +55,7 @@
                             <label style="min-width: 50%">Country </label>       <select id="country" class="form-control" style="min-width: 200px" asp-for="@Model.CountryId" asp-items="@Model.CountryList"></select>
                         </div>
                     </div>
-                    <br/>
+                    <br />
                     <div class="field-group">
                         <div class="content-input-field" style="display: inline-flex">
                             <label style="min-width: 43%">Business  Type    </label>     <select id="BussinessType" style="min-width: 200px" class="form-control" asp-for="@Model.BusinessTypeId" asp-items="@Model.BusinessTypeList"></select>
