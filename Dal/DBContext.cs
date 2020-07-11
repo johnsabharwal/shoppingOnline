@@ -13,5 +13,13 @@ namespace Dal
         public DbSet<Company> Companys { get; set; }
         public DbSet<Country> Countrys { get; set; }
         public DbSet<BusinessType> BusinessTypes { get; set; }
+        public DbSet<Category> Category { get; set; }
+        public DbSet<SubCategory> SubCategory { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Officer> Officers { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Promoter> Promoters { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 }

@@ -32,7 +32,8 @@ namespace ShoppingOnline
             services.AddDbContext<DBContext>(options => options.UseSqlServer(connection));
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IMasterDataService, MasterDataService>();
-
+            services.AddRazorPages()
+                .AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

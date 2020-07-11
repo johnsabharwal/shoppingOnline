@@ -81,53 +81,62 @@ namespace ShoppingOnline.Controllers
         public IActionResult Departments()
         {
             ViewBag.Class = "inner-page";
-
-            return View();
+            AddDepartmentVM addDepartmentVM = new AddDepartmentVM();
+            return View(addDepartmentVM);
         }
-        public ActionResult Students()
+        public ActionResult Students(int draw)
         {
             Models.BaseDataTable dataTable = new Models.BaseDataTable();
-           // dataTable.draw = int.Parse(Request.QueryString["draw"]);
 
             List<Models.Department> students = new List<Models.Department>();
             students.Add(new Models.Department { Id = 1, Name = "Mike", SurName = "Mikey", ClassRoom = "8A" });
             students.Add(new Models.Department { Id = 2, Name = "John", SurName = "Salary", ClassRoom = "8B" });
             students.Add(new Models.Department { Id = 3, Name = "Steve", SurName = "Brown", ClassRoom = "7A" });
-
-            //string filterName = Request.QueryString["name"];
-            //string filterSurName = Request.QueryString["surname"];
-            //string filterClassroom = Request.QueryString["classroom"];
+            string filterName = "";
+            string filterSurName = "";// Request.QueryString["surname"];
+            string filterClassroom = "";//Request.QueryString["classroom"];
 
             var result = from s in students
-                //where (string.IsNullOrEmpty(filterName) || s.Name.Equals(filterName))
-                //      && (string.IsNullOrEmpty(filterSurName) || s.SurName.Equals(filterSurName))
-                //      && (string.IsNullOrEmpty(filterClassroom) || s.ClassRoom.Equals(filterClassroom))
+                where (string.IsNullOrEmpty(filterName) || s.Name.Equals(filterName))
+                      && (string.IsNullOrEmpty(filterSurName) || s.SurName.Equals(filterSurName))
+                      && (string.IsNullOrEmpty(filterClassroom) || s.ClassRoom.Equals(filterClassroom))
                 select s;
+            var model = result.ToList();
+            dataTable.draw = draw;
 
-            dataTable.data = result.ToArray();
+           dataTable.data = result.ToArray();
             dataTable.recordsTotal = students.Count;
             dataTable.recordsFiltered = result.Count();
-            return Json(dataTable);
+            return Json(model);
+
         }
         public IActionResult Officers()
         {
-            return View();
+            AddOfficerVM addOfficerVM = new AddOfficerVM();
+
+            return View(addOfficerVM);
         }
         public IActionResult Employees()
         {
-            return View();
+            AddEmployeeVM addEmployeeVM = new AddEmployeeVM();
+
+            return View(addEmployeeVM);
         }
         public IActionResult Suppliers()
         {
-            return View();
+            AddSuppliersVM addSuppliersVM = new AddSuppliersVM();
+
+            return View(addSuppliersVM);
         }
         public IActionResult Products()
         {
-            return View();
+            AddProductVM addProductVM=new AddProductVM();
+            return View(addProductVM);
         }
         public IActionResult Promoters()
         {
-            return View();
+            AddPromotersVM addPromotersVM=new AddPromotersVM();
+            return View(addPromotersVM);
         }
     }
 }

@@ -17,6 +17,11 @@ namespace Dal.Entities
         public int CountryId { get; set; }
         public int BusinessTypeId { get; set; }
         public string Address { get; set; }
-
+        public ICollection<Department> Department { get; set; }
+        public ICollection<Officer> Officer { get; set; }
+        public ICollection<Product> Product { get; set; }
+        public ICollection<Promoter> Promoter { get; set; }
+        public ICollection<Supplier> Supplier { get; set; }
+        public ICollection<Employee> Employee { get; set; }
     }
 }
