@@ -15,12 +15,13 @@ namespace ShoppingOnline.Models
         public string ProductCode { get; set; }
         public string ProductName { get; set; }
 
-        public string Discount { get; set; }
+        public int Discount { get; set; }
         public string Quantity { get; set; }
         public string ImagePath { get; set; }
         public string Price { get; set; }
         public string Description { get; set; }
-
+        public int CompanyId { get; set; }
+        public int ProductId { get; set; }
 
     }
 }

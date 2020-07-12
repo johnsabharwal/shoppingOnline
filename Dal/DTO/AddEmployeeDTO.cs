@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Text;
 
-namespace ShoppingOnline.Models
+namespace Dal.DTO
 {
-    public class AddEmployeeVM
+   public class AddEmployeeDTO
     {
         public string EmployeeName { get; set; }
         public int DepartmentId { get; set; }
@@ -15,7 +13,5 @@ namespace ShoppingOnline.Models
         public string EmailAddress { get; set; }
         public int CompanyId { get; set; }
         public int EmployeeId { get; set; }
-
-        public IEnumerable<SelectListItem> DepartmentList { get; set; }
     }
 }

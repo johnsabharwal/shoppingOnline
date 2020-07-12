@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace ShoppingOnline.Models
+namespace Dal.DTO
 {
-    public class AddPromotersVM
+    public class AddSupplierDTO
     {
-        public string PromoterName { get; set; }
+        public string SupplierName { get; set; }
         public string Address { get; set; }
         public string ContactNumber { get; set; }
         public string EmailAddress { get; set; }
         public int CompanyId { get; set; }
-        public int PromoterId { get; set; }
+        public int SupplierId { get; set; }
+
     }
 }

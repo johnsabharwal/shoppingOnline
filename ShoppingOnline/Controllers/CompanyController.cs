@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -78,11 +79,20 @@ namespace ShoppingOnline.Controllers
             }
 
         }
-        public IActionResult Departments()
+        public IActionResult Departments(int companyId)
         {
             ViewBag.Class = "inner-page";
             AddDepartmentVM addDepartmentVM = new AddDepartmentVM();
+            addDepartmentVM.CompanyId = companyId;
             return View(addDepartmentVM);
+        }
+        public IActionResult CreateDepartment(AddDepartmentVM addDepartmentVM)
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<AddDepartmentVM, AddDepartmentDTO>());
+            var mapper = new Mapper(config);
+            AddDepartmentDTO dto = mapper.Map<AddDepartmentDTO>(addDepartmentVM);
+            _userService.CreateAndUpdateDepartment(dto);
+            return RedirectToAction("Departments", "Company", new { companyId = dto.CompanyId });
         }
         public ActionResult Students(int draw)
         {
@@ -97,46 +107,118 @@ namespace ShoppingOnline.Controllers
             string filterClassroom = "";//Request.QueryString["classroom"];
 
             var result = from s in students
-                where (string.IsNullOrEmpty(filterName) || s.Name.Equals(filterName))
-                      && (string.IsNullOrEmpty(filterSurName) || s.SurName.Equals(filterSurName))
-                      && (string.IsNullOrEmpty(filterClassroom) || s.ClassRoom.Equals(filterClassroom))
-                select s;
+                         where (string.IsNullOrEmpty(filterName) || s.Name.Equals(filterName))
+                               && (string.IsNullOrEmpty(filterSurName) || s.SurName.Equals(filterSurName))
+                               && (string.IsNullOrEmpty(filterClassroom) || s.ClassRoom.Equals(filterClassroom))
+                         select s;
             var model = result.ToList();
             dataTable.draw = draw;
 
-           dataTable.data = result.ToArray();
+            dataTable.data = result.ToArray();
             dataTable.recordsTotal = students.Count;
             dataTable.recordsFiltered = result.Count();
             return Json(model);
 
         }
-        public IActionResult Officers()
+        public IActionResult Officers(int companyId)
         {
             AddOfficerVM addOfficerVM = new AddOfficerVM();
-
+            addOfficerVM.CompanyId = companyId;
+            addOfficerVM.DepartmentList = _masterDataService.GetDepartments(companyId).Select(x => new SelectListItem() { Text = x.DepartmentName, Value = x.Id.ToString() });
             return View(addOfficerVM);
         }
-        public IActionResult Employees()
+        public IActionResult CreateOfficer(AddOfficerVM addOfficerVM)
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<AddOfficerVM, AddOfficerDTO>());
+            var mapper = new Mapper(config);
+            AddOfficerDTO dto = mapper.Map<AddOfficerDTO>(addOfficerVM);
+            _userService.CreateAndUpdateOfficer(dto);
+            return RedirectToAction("Officers", "Company", new { companyId = dto.CompanyId });
+        }
+        public IActionResult Employees(int companyId)
         {
             AddEmployeeVM addEmployeeVM = new AddEmployeeVM();
-
+            addEmployeeVM.CompanyId = companyId;
+            addEmployeeVM.DepartmentList = _masterDataService.GetDepartments(companyId).Select(x => new SelectListItem() { Text = x.DepartmentName, Value = x.Id.ToString() });
             return View(addEmployeeVM);
         }
-        public IActionResult Suppliers()
+        public IActionResult CreateEmployee(AddEmployeeVM addEmployeeVM)
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<AddEmployeeVM, AddEmployeeDTO>());
+            var mapper = new Mapper(config);
+            AddEmployeeDTO dto = mapper.Map<AddEmployeeDTO>(addEmployeeVM);
+            _userService.CreateAndUpdateEmployee(dto);
+            return RedirectToAction("Employees", "Company", new { companyId = dto.CompanyId });
+        }
+        public IActionResult Suppliers(int companyId)
         {
             AddSuppliersVM addSuppliersVM = new AddSuppliersVM();
-
+            addSuppliersVM.CompanyId = companyId;
             return View(addSuppliersVM);
         }
-        public IActionResult Products()
+        public IActionResult CreateSupplier(AddSuppliersVM addSuppliersVM)
         {
-            AddProductVM addProductVM=new AddProductVM();
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<AddSuppliersVM, AddSupplierDTO>());
+            var mapper = new Mapper(config);
+            AddSupplierDTO dto = mapper.Map<AddSupplierDTO>(addSuppliersVM);
+            _userService.CreateAndUpdateSuppplier(dto);
+            return RedirectToAction("Suppliers", "Company", new { companyId = dto.CompanyId });
+        }
+        public IActionResult Products(int companyId)
+        {
+            AddProductVM addProductVM = new AddProductVM();
+            addProductVM.CompanyId = companyId;
+            addProductVM.Category = new List<SelectListItem>()
+                {new SelectListItem() {Text = "Electronics", Value = "1"}};
             return View(addProductVM);
         }
-        public IActionResult Promoters()
+        public IActionResult AddProduct(AddProductVM addProductVM)
         {
-            AddPromotersVM addPromotersVM=new AddPromotersVM();
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<AddProductVM, AddProductDTO>());
+            var mapper = new Mapper(config);
+            AddProductDTO dto = mapper.Map<AddProductDTO>(addProductVM);
+
+            var files = HttpContext.Request.Form.Files;
+            foreach (var Image in files)
+            {
+                if (Image != null && Image.Length > 0)
+                {
+                    var file = Image;
+                    var uploads = Path.Combine("", "uploads\\img");
+                    if (file.Length > 0)
+                    {
+                        var fileName = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(file.FileName);
+                        using (var fileStream = new FileStream(Path.Combine(uploads, fileName), FileMode.Create))
+                        {
+                            file.CopyToAsync(fileStream);
+                            addProductVM.ImagePath = fileName;
+                        }
+
+                    }
+                }
+            }
+            _userService.CreateAndUpdateProduct(dto);
+            return RedirectToAction("Products", "Company", new { companyId = dto.CompanyId });
+        }
+
+        public string UploadProductImage(AddProductVM addProductVM)
+        {
+
+            return "";
+        }
+        public IActionResult Promoters(int companyId)
+        {
+            AddPromotersVM addPromotersVM = new AddPromotersVM();
+            addPromotersVM.CompanyId = companyId;
             return View(addPromotersVM);
+        }
+        public IActionResult CreatePromoter(AddPromotersVM addPromotersVM)
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<AddPromotersVM, AddPromotersDTO>());
+            var mapper = new Mapper(config);
+            AddPromotersDTO dto = mapper.Map<AddPromotersDTO>(addPromotersVM);
+            _userService.CreateAndUpdatePromoter(dto);
+            return RedirectToAction("Promoters", "Company", new { companyId = dto.CompanyId });
         }
     }
 }

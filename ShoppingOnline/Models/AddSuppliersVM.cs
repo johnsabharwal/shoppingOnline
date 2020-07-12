@@ -11,5 +11,8 @@ namespace ShoppingOnline.Models
         public string Address { get; set; }
         public string ContactNumber { get; set; }
         public string EmailAddress { get; set; }
+        public int CompanyId { get; set; }
+        public int SupplierId { get; set; }
+
     }
 }

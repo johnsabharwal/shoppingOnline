@@ -9,12 +9,12 @@
 
         <div class="content-grid">
             <div class="text-center icon">
-                <h3>Add DepartmentId</h3>
+                <h3>Add Department</h3>
             </div>
             <div class="content-bottom">
-                <form action="/company/create" method="post">
+                <form action="/company/CreateDepartment" method="post">
                     <div class="field-group">
-
+                        <input asp-for="@Model.CompanyId" type="hidden" value="@Model.CompanyId">
                         <div class="content-input-field">
                             <input asp-for="@Model.DepartmentName" type="text" value="" placeholder="DepartmentId Name" required="">
                         </div>
@@ -43,14 +43,16 @@
             </div>
         </div>
         
-        <h3>List of DepartmentIds</h3>
+        <h3>List of Department</h3>
 
         <table id="demoTable" class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <td>Name</td>
-                    <td>Surname</td>
-                    <td>Classroom</td>
+                    <td>Department Name</td>
+                    <td>Officer Name</td>
+                    <td>Contact</td>
+                    <td>Email</td>
+
                 </tr>
             </thead>
         </table>

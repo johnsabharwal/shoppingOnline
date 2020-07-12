@@ -24,5 +24,10 @@ namespace Dal.Implementation
             return _dbContext.BusinessTypes.ToList();
 
         }
+
+        public IEnumerable<Department> GetDepartments( int companyId)
+        {
+            return _dbContext.Departments.Where(x => x.CompanyId.Equals(companyId)).ToList();
+        }
     }
 }

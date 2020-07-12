@@ -12,9 +12,9 @@
             <h3>Add Product</h3>
         </div>
         <div class="content-bottom">
-            <form action="/company/create" method="post">
+            <form action="/company/AddProduct" method="post">
                 <div class="field-group">
-
+                    <input asp-for="@Model.CompanyId" type="hidden" value="@Model.CompanyId">
                     <div class="content-input-field" style="display: inline-flex">
                         <label style="min-width: 55%">Category </label>       <select id="Category" class="form-control" style="min-width: 200px" asp-for="@Model.CategoryId" asp-items="@Model.Category"></select>
                     </div>
@@ -27,13 +27,7 @@
                     </div>
                 </div>
                 <br />
-                <div class="field-group">
-
-                    <div class="content-input-field" style="display: inline-flex">
-                        <label for="fileImage" class="btn btn-success"  style="min-width: 50%;height:50px">UploadImage </label> <input id="fileImage" type="file" style="display: none"/> <img style="height: 100px; width: 100px;margin-left:66px " class="img-responsive" src="/images/ab1.jpg" />  
-                    </div>
-                </div>
-                <br />
+               
                 <div class="field-group">
 
                     <div class="content-input-field">
@@ -61,6 +55,23 @@
                     <div class="content-input-field">
                         <input asp-for="@Model.Description" type="text" placeholder="Description">
                     </div>
+                </div>
+                <div class="field-group" style="display: inline-flex">
+
+                    <div class="content-input-field" >
+
+                        <label id="before-upload" for="upload-browsebtn" class="btn btn-success kt-btn--wide">Select image</label>
+                        <label id="after-upload" for="upload-browsebtn" class="btn btn-primary kt-btn--wide">Change</label>
+                        <input id="upload-browsebtn" value="Choose a file" accept="image/*" type="file"  style="display: none">
+                        <input type="hidden" value="@ViewBag.url" id="hdnProfilePicPath"/>
+                        @*       <label for="fileImage" class="btn btn-success"  style="min-width: 50%;height:50px">UploadImage </label> <input id="fileImage" asp-for="@Model.ImagePath" type="file" > <img style="height: 100px; width: 100px;margin-left:66px " class="img-responsive" src="/images/ab1.jpg" />*@  
+                    </div>
+                    
+                </div>
+                <br />
+                <div class="field-group">
+                    <div id="upload" class="croppie-container" style="max-height: 50px; max-width: 50px;"></div>
+
                 </div>
                 <div class="content-input-field">
                     <button type="submit" class="btn">Add</button>
@@ -90,6 +101,7 @@
 
 
     <script type="text/javascript">
+        var $uploadType = 'profilepics';
         var filterValues = {};
         $(document).ready(function () {
             var refDataTable = $("#demoTable").dataTable({

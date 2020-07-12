@@ -10,5 +10,6 @@ namespace Dal.Interface
         IEnumerable<Country> GetCountries();
         IEnumerable<BusinessType> GetBusinessTypes();
 
+        IEnumerable<Department> GetDepartments( int companyId);
     }
 }

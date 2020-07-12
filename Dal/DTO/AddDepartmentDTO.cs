@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace ShoppingOnline.Models
+namespace Dal.DTO
 {
-    public class AddDepartmentVM
+    public class AddDepartmentDTO
     {
         public string DepartmentName { get; set; }
         public string OfficerInchargeName { get; set; }

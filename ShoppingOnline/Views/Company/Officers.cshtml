@@ -12,9 +12,9 @@
             <h3>Add Officer</h3>
         </div>
         <div class="content-bottom">
-            <form action="/company/create" method="post">
+            <form action="/company/CreateOfficer" method="post">
                 <div class="field-group">
-
+                    <input asp-for="@Model.CompanyId" type="hidden" value="@Model.CompanyId" >
                     <div class="content-input-field">
                         <input asp-for="@Model.OfficerName" type="text" value="" placeholder="Officer Name" required="">
                     </div>
@@ -22,7 +22,7 @@
                 <div class="field-group">
 
                     <div class="content-input-field" style="display: inline-flex">
-                        <label style="min-width: 50%">DepartmentId </label>       <select id="country" class="form-control" style="min-width: 200px" asp-for="@Model.DepartmentId" asp-items="@Model.DepartmentList"></select>
+                        <label style="min-width: 50%">Department </label>       <select id="country" class="form-control" style="min-width: 200px" asp-for="@Model.DepartmentId" asp-items="@Model.DepartmentList"></select>
                     </div>
                 </div>
                 <br />
@@ -55,9 +55,12 @@
     <table id="demoTable" class="table table-striped table-bordered">
         <thead>
             <tr>
-                <td>Name</td>
-                <td>Surname</td>
-                <td>Classroom</td>
+                <td>Officer Name</td>
+                <td>Department</td>
+                <td>Contact Number</td>
+                <td>Email</td>
+                <td>Address</td>
+
             </tr>
         </thead>
     </table>
