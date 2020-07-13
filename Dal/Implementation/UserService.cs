@@ -217,6 +217,28 @@ namespace Dal.Implementation
             }
         }
 
+        public IEnumerable<Department> GetDepartments(int companyId)
+        {
+            return dBContext.Departments.Where(x => x.CompanyId == companyId);
+        }
+
+        public IEnumerable<Officer> GetOfficers(int companyId)
+        {
+            return dBContext.Officers.Where(x => x.CompanyId == companyId);
+        }
+        public IEnumerable<Employee> GetEmployees(int companyId)
+        {
+            return dBContext.Employees.Where(x => x.CompanyId == companyId);
+        }
+
+        public IEnumerable<Supplier> GetSuppliers(int companyId)
+        {
+            return dBContext.Suppliers.Where(x => x.CompanyId == companyId);
+        }
+        public IEnumerable<Promoter> GetPromoters(int companyId)
+        {
+            return dBContext.Promoters.Where(x => x.CompanyId == companyId);
+        }
         public int CreateCompany(RegisterCompanyDTO registerCompanyDTO)
         {
 
@@ -235,6 +257,11 @@ namespace Dal.Implementation
             dBContext.Companys.Add(company);
             dBContext.SaveChanges();
             return company.Id;
+        }
+
+        public IEnumerable<Product> GetProducts( int companyId)
+        {
+         return   dBContext.Products.Where(x => x.CompanyId == companyId);
         }
     }
 }

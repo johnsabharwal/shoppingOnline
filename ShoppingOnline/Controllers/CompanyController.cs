@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Dal.DTO;
 using Dal.Interface;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ShoppingOnline.Models;
@@ -16,11 +17,14 @@ namespace ShoppingOnline.Controllers
     {
         private readonly IUserService _userService;
         private readonly IMasterDataService _masterDataService;
+        private readonly IWebHostEnvironment webHostEnvironment;
         public CompanyController(IUserService userService,
-            IMasterDataService masterDataService)
+            IMasterDataService masterDataService,
+            IWebHostEnvironment hostEnvironment)
         {
             _userService = userService;
             _masterDataService = masterDataService;
+            webHostEnvironment = hostEnvironment;
         }
         public IActionResult Index()
         {
@@ -94,32 +98,7 @@ namespace ShoppingOnline.Controllers
             _userService.CreateAndUpdateDepartment(dto);
             return RedirectToAction("Departments", "Company", new { companyId = dto.CompanyId });
         }
-        public ActionResult Students(int draw)
-        {
-            Models.BaseDataTable dataTable = new Models.BaseDataTable();
 
-            List<Models.Department> students = new List<Models.Department>();
-            students.Add(new Models.Department { Id = 1, Name = "Mike", SurName = "Mikey", ClassRoom = "8A" });
-            students.Add(new Models.Department { Id = 2, Name = "John", SurName = "Salary", ClassRoom = "8B" });
-            students.Add(new Models.Department { Id = 3, Name = "Steve", SurName = "Brown", ClassRoom = "7A" });
-            string filterName = "";
-            string filterSurName = "";// Request.QueryString["surname"];
-            string filterClassroom = "";//Request.QueryString["classroom"];
-
-            var result = from s in students
-                         where (string.IsNullOrEmpty(filterName) || s.Name.Equals(filterName))
-                               && (string.IsNullOrEmpty(filterSurName) || s.SurName.Equals(filterSurName))
-                               && (string.IsNullOrEmpty(filterClassroom) || s.ClassRoom.Equals(filterClassroom))
-                         select s;
-            var model = result.ToList();
-            dataTable.draw = draw;
-
-            dataTable.data = result.ToArray();
-            dataTable.recordsTotal = students.Count;
-            dataTable.recordsFiltered = result.Count();
-            return Json(model);
-
-        }
         public IActionResult Officers(int companyId)
         {
             AddOfficerVM addOfficerVM = new AddOfficerVM();
@@ -168,43 +147,35 @@ namespace ShoppingOnline.Controllers
         {
             AddProductVM addProductVM = new AddProductVM();
             addProductVM.CompanyId = companyId;
-            addProductVM.Category = new List<SelectListItem>()
-                {new SelectListItem() {Text = "Electronics", Value = "1"}};
+            addProductVM.Category = _masterDataService.GetCategory().Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name });
             return View(addProductVM);
         }
+        [HttpPost]
         public IActionResult AddProduct(AddProductVM addProductVM)
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<AddProductVM, AddProductDTO>());
             var mapper = new Mapper(config);
             AddProductDTO dto = mapper.Map<AddProductDTO>(addProductVM);
-
-            var files = HttpContext.Request.Form.Files;
-            foreach (var Image in files)
-            {
-                if (Image != null && Image.Length > 0)
-                {
-                    var file = Image;
-                    var uploads = Path.Combine("", "uploads\\img");
-                    if (file.Length > 0)
-                    {
-                        var fileName = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(file.FileName);
-                        using (var fileStream = new FileStream(Path.Combine(uploads, fileName), FileMode.Create))
-                        {
-                            file.CopyToAsync(fileStream);
-                            addProductVM.ImagePath = fileName;
-                        }
-
-                    }
-                }
-            }
+            dto.ImagePath = UploadedFile(addProductVM);
             _userService.CreateAndUpdateProduct(dto);
             return RedirectToAction("Products", "Company", new { companyId = dto.CompanyId });
         }
 
-        public string UploadProductImage(AddProductVM addProductVM)
+        private string UploadedFile(AddProductVM model)
         {
+            string uniqueFileName = null;
 
-            return "";
+            if (model.ImagePath != null)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ImagePath.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.ImagePath.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
         }
         public IActionResult Promoters(int companyId)
         {
@@ -220,5 +191,8 @@ namespace ShoppingOnline.Controllers
             _userService.CreateAndUpdatePromoter(dto);
             return RedirectToAction("Promoters", "Company", new { companyId = dto.CompanyId });
         }
+
+
+
     }
 }

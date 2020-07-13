@@ -45,15 +45,16 @@
 
     <h3>List of Promoters</h3>
 
-    <taable id="demoTable" class="table table-striped table-bordered">
+    <table id="dataTable" class="table table-striped table-bordered">
         <thead>
             <tr>
                 <td>Name</td>
-                <td>Surname</td>
-                <td>Classroom</td>
+                <td>Address</td>
+                <td>Contact</td>
+                <td>Email</td>
             </tr>
         </thead>
-    </taable>
+    </table>
 </div>
 
 
@@ -66,32 +67,29 @@
     <script type="text/javascript">
         var filterValues = {};
         $(document).ready(function () {
-            var refDataTable = $("#demoTable").dataTable({
+            var refDataTable = $("#dataTable").dataTable({
                 serverSide: true,
                 bFilter: false,
                 columns: [
-                    { data: "Name" },
-                    { data: "SurName" },
-                    { data: "ClassRoom" }
+                    { data: "promoterName" },
+                    { data: "address" },
+                    { data: "contactNumber" },
+                    { data: "emailAddress" },
                 ],
                 ajax: function (data, callback, settings) {
                     filterValues.draw = data.draw;
                     filterValues.start = data.start;
                     filterValues.length = data.length;
+                    filterValues.companyId=@Model.CompanyId;
                     $.ajax({
-                        url: '/Company/Students',
+                        url: '/GetCompanyData/GetPromoters',
                         method: 'GET',
                         data: filterValues
                     }).done(callback);
                 }
             });
-            $("#filterBtn").click(function () {
-                filterValues.name = $("#filterName").val();
-                filterValues.surname = $("#filterSurName").val();
-                filterValues.classroom = $("#filterClassRoom").val();
-                refDataTable.fnDraw();
-            });
         });
     </script>
 }
+
 

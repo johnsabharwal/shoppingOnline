@@ -29,5 +29,15 @@ namespace Dal.Implementation
         {
             return _dbContext.Departments.Where(x => x.CompanyId.Equals(companyId)).ToList();
         }
+
+        public IEnumerable<SubCategory> GetSubCategory(int categoryId)
+        {
+            return _dbContext.SubCategory.Where(x => x.CategoryId == categoryId);
+        }
+
+        public IEnumerable<Category> GetCategory()
+        {
+          return  _dbContext.Category.ToList();
+        }
     }
 }

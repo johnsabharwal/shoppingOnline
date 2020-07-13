@@ -14,7 +14,7 @@
         <div class="content-bottom">
             <form action="/company/CreateOfficer" method="post">
                 <div class="field-group">
-                    <input asp-for="@Model.CompanyId" type="hidden" value="@Model.CompanyId" >
+                    <input asp-for="@Model.CompanyId" type="hidden" value="@Model.CompanyId">
                     <div class="content-input-field">
                         <input asp-for="@Model.OfficerName" type="text" value="" placeholder="Officer Name" required="">
                     </div>
@@ -52,15 +52,14 @@
 
     <h3>List of Officers</h3>
 
-    <table id="demoTable" class="table table-striped table-bordered">
+    <table id="dataTable" class="table table-striped table-bordered">
         <thead>
             <tr>
-                <td>Officer Name</td>
-                <td>Department</td>
-                <td>Contact Number</td>
-                <td>Email</td>
+                <td>Name</td>
                 <td>Address</td>
-
+                <td>Contact</td>
+                <td>Email</td>
+                <td>Department</td>
             </tr>
         </thead>
     </table>
@@ -76,32 +75,30 @@
     <script type="text/javascript">
         var filterValues = {};
         $(document).ready(function () {
-            var refDataTable = $("#demoTable").dataTable({
+            var refDataTable = $("#dataTable").dataTable({
                 serverSide: true,
                 bFilter: false,
                 columns: [
-                    { data: "Name" },
-                    { data: "SurName" },
-                    { data: "ClassRoom" }
+                    { data: "officerName" },
+                    { data: "address" },
+                    { data: "contactNumber" },
+                    { data: "emailAddress" },
+                    { data: "departmentId" }
                 ],
                 ajax: function (data, callback, settings) {
                     filterValues.draw = data.draw;
                     filterValues.start = data.start;
                     filterValues.length = data.length;
+                    filterValues.companyId=@Model.CompanyId;
                     $.ajax({
-                        url: '/Company/Students',
+                        url: '/GetCompanyData/GetOfficers',
                         method: 'GET',
                         data: filterValues
                     }).done(callback);
                 }
             });
-            $("#filterBtn").click(function () {
-                filterValues.name = $("#filterName").val();
-                filterValues.surname = $("#filterSurName").val();
-                filterValues.classroom = $("#filterClassRoom").val();
-                refDataTable.fnDraw();
-            });
         });
     </script>
 }
+
 

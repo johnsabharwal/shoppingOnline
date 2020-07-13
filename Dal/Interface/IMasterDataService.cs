@@ -11,5 +11,7 @@ namespace Dal.Interface
         IEnumerable<BusinessType> GetBusinessTypes();
 
         IEnumerable<Department> GetDepartments( int companyId);
+        IEnumerable<SubCategory> GetSubCategory( int categoryId);
+        IEnumerable<Category> GetCategory();
     }
 }

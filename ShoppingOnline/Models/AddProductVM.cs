@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Remotion.Linq.Clauses;
 
 namespace ShoppingOnline.Models
 {
@@ -15,13 +17,15 @@ namespace ShoppingOnline.Models
         public string ProductCode { get; set; }
         public string ProductName { get; set; }
 
-        public int Discount { get; set; }
+        public string Discount { get; set; }
         public string Quantity { get; set; }
-        public string ImagePath { get; set; }
+        public IFormFile ImagePath { get; set; }
         public string Price { get; set; }
         public string Description { get; set; }
         public int CompanyId { get; set; }
         public int ProductId { get; set; }
+        public string UploadPath { get; set; }
+
 
     }
 }
