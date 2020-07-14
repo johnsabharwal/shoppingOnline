@@ -16,9 +16,9 @@ namespace Dal.Implementation
             dBContext = db;
         }
 
-        public bool CompanyLogin(string emailid, string password)
+        public int CompanyLogin(string emailid, string password)
         {
-            return dBContext.Companys.Any(x => x.EmailAddress.Equals(emailid) && x.Password == password);
+            return dBContext.Companys.FirstOrDefault(x => x.EmailAddress.Equals(emailid) && x.Password == password)?.Id ?? 0;
         }
 
         public void CreateAndUpdateDepartment(AddDepartmentDTO dto)
@@ -259,9 +259,9 @@ namespace Dal.Implementation
             return company.Id;
         }
 
-        public IEnumerable<Product> GetProducts( int companyId)
+        public IEnumerable<Product> GetProducts(int companyId)
         {
-         return   dBContext.Products.Where(x => x.CompanyId == companyId);
+            return dBContext.Products.Where(x => x.CompanyId == companyId);
         }
     }
 }

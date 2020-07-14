@@ -9,7 +9,7 @@ namespace Dal.Interface
     public interface IUserService
     {
         int CreateCompany(RegisterCompanyDTO registerCompanyDTO);
-        bool CompanyLogin(string emailid, string password);
+        int CompanyLogin(string emailid, string password);
         void CreateAndUpdateDepartment(AddDepartmentDTO dto);
         void CreateAndUpdateOfficer(AddOfficerDTO dto);
         void CreateAndUpdateEmployee(AddEmployeeDTO dto);

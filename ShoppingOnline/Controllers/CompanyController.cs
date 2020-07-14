@@ -35,17 +35,18 @@ namespace ShoppingOnline.Controllers
             return View();
         }
 
-        public IActionResult CompanyDashboard()
+        public IActionResult CompanyDashboard(int companyId)
         {
+            ViewBag.CompanyId = companyId;
             return View();
         }
         public IActionResult Login(string emailId, string password)
         {
             var result = _userService.CompanyLogin(emailId, password);
 
-            if (result)
+            if (result > 0)
             {
-                return RedirectToAction("CompanyDashboard");
+                return RedirectToAction("CompanyDashboard",new { companyId = result });
             }
             else
             {
