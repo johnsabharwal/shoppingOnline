@@ -26,6 +26,6 @@ namespace Dal.Interface
         IEnumerable<Product> GetProductByCategoryId(int subCategoryId);
         IEnumerable<Product> GetProductsByIds(List<string> pIds);
         Customer GetUserById(int userid);
-        int PlaceOrder(PlaceOrderDTO dto);
+        int PlaceOrder(PlaceOrderDTO dto,int userId);
     }
 }

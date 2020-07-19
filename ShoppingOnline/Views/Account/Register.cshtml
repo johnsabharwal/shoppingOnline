@@ -43,7 +43,7 @@
                     <br />
                     <div class="field-group">
                         <div class="content-input-field" style="display: inline-flex">
-                            <label style="min-width: 53%">State      </label>     <select id="state" asp-for="@Model.StateId" style="min-width: 200px" class="form-control" ></select>
+                            <label style="min-width: 53%">State      </label>     <select id="state" asp-for="@Model.StateId" style="min-width: 200px" class="form-control"></select>
                         </div>
                     </div>
                     <div class="field-group">
@@ -51,7 +51,12 @@
                             <input asp-for="@Model.Address" type="text" placeholder="Address">
                         </div>
                     </div>
-                    <br/>
+                    <div class="field-group">
+                        <div class="content-input-field">
+                            <input asp-for="@Model.Pincode" type="text" placeholder="Pincode">
+                        </div>
+                    </div>
+                    <br />
                     <div class="content-input-field">
                         <button type="submit" class="btn">Sign Up</button>
                     </div>

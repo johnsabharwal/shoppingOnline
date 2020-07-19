@@ -5,13 +5,15 @@
 <div class="container py-5">
     <div class="row">
         <div class="col-md-5">
-            <img src="~/images/thank-you.jpg" style="max-width:90%"/>
+            <img src="~/images/thank-you.jpg" style="max-width:90%" />
         </div>
         <div class="col-md-7">
-            <br/>
-            <br/>
+            <br />
+            <br />
             <h2>Your order placed sucessfully...</h2>
-            <h4>Your order Id is 105 @ViewBag.OrderId, Track your order for all updates</h4>
+            <br>
+            <h4>Your order Id is  @ViewBag.OrderId, Track your order for all updates</h4>
+            <br />
             <!-- buttons -->
             <div class="buttons">
                 <a href="/" class="btn btn-success">
@@ -23,5 +25,20 @@
             </div>
         </div>
 
-        </div>
     </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function() {
+
+            var oid = '@ViewBag.OrderId';
+            if (oid != "" && oid!=undefined) {
+                localStorage.removeItem("cart");
+                $("#ccount").text(0);
+            }
+        });
+
+
+    </script>
+}

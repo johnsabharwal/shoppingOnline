@@ -4,7 +4,29 @@
 
 <section class="banner-bottom py-5">
     <div class="container py-5">
-        <h3 class="title-wthree mb-lg-5 mb-4 text-center">Shop Now</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <h3 class="title-wthree mb-lg-5 mb-4 ">Shop Now</h3>
+
+            </div>
+                <div class="col-md-4">
+                    Sort
+                    <select class="form-control">
+                        <option value="value">Most Popular</option>
+                        <option value="value">Most Frequent</option>
+                        <option value="value">Low To High</option>
+                        <option value="value">High To Low</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    Order
+                    <select class="form-control">
+                        <option value="value">Ascending</option>
+                        <option value="value">Descending</option>
+                    </select>
+                </div>
+            </div>
+       
         <!--/row-->
         <div class="row shop-wthree-info text-center">
             @foreach (var product in Model.products)

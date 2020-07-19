@@ -34,7 +34,8 @@ namespace Dal.Implementation
                     Name = dto.UserName,
                     CountryId = dto.CountryId,
                     StateId = dto.StateId,
-                    Username = dto.UserName
+                    Username = dto.UserName,
+                    PinCode = dto.Pincode
                 };
                 dBContext.Customers.Add(customer);
                 dBContext.SaveChanges();

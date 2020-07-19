@@ -6,18 +6,13 @@ namespace Dal.DTO
 {
     public class PlaceOrderDTO
     {
-        public int UserId { get; set; }
-        public int CardNo { get; set; }
+
+        public string CardNo { get; set; }
         public string CardExpiry { get; set; }
         public string CardName { get; set; }
-        public string PaymentType { get; set; }
-        public int Cvv { get; set; }
-        public List<Cart> Cart { get; set; }
-    }
-
-    public class Cart
-    {
-        public int ProductId { get; set; }
-        public int Quantity { get; set; }
+        public string PaymentType { get; set; } = "Credit";
+        public string Cvv { get; set; }
+        public string Cart { get; set; }
+        public int Total { get; set; }
     }
 }

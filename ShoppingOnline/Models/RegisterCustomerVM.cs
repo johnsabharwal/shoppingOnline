@@ -16,7 +16,7 @@ namespace ShoppingOnline.Models
         public int CountryId { get; set; }
         public int StateId { get; set; }
         public string Address { get; set; }
-        public int Pincode { get; set; }
+        public string Pincode { get; set; }
         public IEnumerable<SelectListItem> StateList { get; set; }
         public IEnumerable<SelectListItem> CountryList { get; set; }
     }

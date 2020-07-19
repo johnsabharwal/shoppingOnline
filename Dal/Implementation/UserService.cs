@@ -6,6 +6,7 @@ using Dal.DTO;
 using Dal.Entities;
 using Dal.Enum;
 using Dal.Interface;
+using Newtonsoft.Json;
 
 namespace Dal.Implementation
 {
@@ -292,19 +293,20 @@ namespace Dal.Implementation
             return dBContext.Customers.FirstOrDefault(x => x.Id == userid);
         }
 
-        public int PlaceOrder(PlaceOrderDTO dto)
+        public int PlaceOrder(PlaceOrderDTO dto,int userid)
         {
+            var cart=  JsonConvert.DeserializeObject<List<CartDesc>>(dto.Cart);
             var order = new Order()
             {
-                CustomerId = dto.UserId,
+                CustomerId = userid,
                 OrderDate = DateTime.Now,
                 PaymentType = dto.PaymentType,
-                Total = GetOrderSum(dto.Cart.Select(x => x.ProductId).ToList()),
+                Total = dto.Total,
                 OrderStatusId = (int)EnumOrderStatus.WaitingForConfirmation,
             };
             dBContext.Orders.Add(order);
             dBContext.SaveChanges();
-            foreach (var item in dto.Cart)
+            foreach (var item in cart)
             {
                 dBContext.OrderDetails.Add(new OrderDetail()
                 {
@@ -316,12 +318,6 @@ namespace Dal.Implementation
             dBContext.SaveChanges();
             return order.Id;
 
-        }
-
-        public int GetOrderSum(List<int> products)
-        {
-            return dBContext.Products.Where(x => products.Contains(x.Id))
-                .Select(y => (int)y.Price - (int)(y.Discount * y.Price / 100)).Sum();
         }
     }
 }

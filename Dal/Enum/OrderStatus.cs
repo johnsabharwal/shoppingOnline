@@ -10,5 +10,7 @@ namespace Dal.Enum
         Dispatched = 2,
         OutForDelivery = 3,
         Delivered = 4,
+        Failed = 5,
+        Cancelled = 6
     }
 }
