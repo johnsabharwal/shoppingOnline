@@ -1,0 +1,76 @@
+﻿@model AddProductVM
+<section class="banner-bottom py-5">
+    <div class="container py-md-5">
+        <!-- product right -->
+        <div class="left-ads-display wthree">
+            <div class="row">
+                <div class="desc1-left col-md-6">
+                    <img src="@Model.UploadPath" class="img-fluid" alt="">
+                </div>
+                <div class="desc1-right col-md-6 pl-lg-3">
+                    <h1>@Model.ProductName</h1>
+                    <h5>Rs. @Model.DiscountPrice <span>@Model.Price</span> </h5>
+                    <div class="available mt-3">
+                        <button class="btn submit addToCart" value="@Model.ProductId">Add to Cart</button>
+                        <span><a href="#">login to save in wishlist </a></span>
+                        <p>@Model.Description </p>
+                    </div>
+                    <div class="share-desc mt-5">
+                        <div class="share text-left">
+                            <h4>Share Product :</h4>
+                            <div class="social-ficons mt-4">
+                                <ul>
+                                    <li><a href="#"><span class="fa fa-facebook"></span> Facebook</a></li>
+                                    <li><a href="#"><span class="fa fa-twitter"></span> Twitter</a></li>
+                                    <li><a href="#"><span class="fa fa-google"></span>Google</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <!--/row-->
+            <h3 class="title-wthree-single my-lg-5 my-4 text-left">Similar Products</h3>
+            <div class="row shop-wthree-info text-center">
+                @foreach (var product in (List<AddProductVM>)ViewBag.SimilarProducts)
+                {
+                    <div class="col-md-3 shop-info-grid text-center mt-4">
+                        <div class="product-shoe-info shoe">
+                            <div class="men-thumb-item">
+                                <img src="@(product.UploadPath)" class="img-fluid" alt="">
+
+                            </div>
+                            <div class="item-info-product">
+                                <h4>
+                                    <a href="/home/product?id=@product.ProductId">@product.ProductName</a>
+                                </h4>
+
+                                <div class="product_price">
+                                    <div class="grid-price">
+                                        <span class="money"><span class="line">$@product.Price</span> $@Model.DiscountPrice</span>
+                                    </div>
+                                </div>
+                                <ul class="stars">
+                                    <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
+                                    <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
+                                    <li><a href="#"><span class="fa fa-star-half-o" aria-hidden="true"></span></a></li>
+                                    <li><a href="#"><span class="fa fa-star-half-o" aria-hidden="true"></span></a></li>
+                                    <li><a href="#"><span class="fa fa-star-o" aria-hidden="true"></span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                }
+                
+
+            </div>
+            <!--//row-->
+
+        </div>
+    </div>
+</section>

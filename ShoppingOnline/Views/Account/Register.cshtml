@@ -1,4 +1,5 @@
-﻿@{
+﻿@model RegisterCustomerVM
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 </div>
@@ -9,30 +10,48 @@
                 <span class="fa fa-user-circle-o"></span>
             </div>
             <div class="content-bottom">
-                <form action="#" method="post">
+                <form action="/Account/UserRegister" method="post">
                     <div class="field-group">
 
                         <div class="content-input-field">
-                            <input name="text1" id="text1" type="text" value="" placeholder="User Name" required="">
-                        </div>
-                    </div>
-                    <div class="field-group">
-
-                        <div class="content-input-field">
-                            <input name="text1" id="text1" type="email" value="" placeholder="User Email" required="">
+                            <input asp-for="@Model.UserName" type="text" value="" placeholder="User Name" required="">
                         </div>
                     </div>
                     <div class="field-group">
 
                         <div class="content-input-field">
-                            <input name="text1" id="text3" type="text" value="" placeholder="UserPhone" required="">
+                            <input asp-for="@Model.EmailId" type="email" value="" placeholder="User Email" required="">
+                        </div>
+                    </div>
+                    <div class="field-group">
+
+                        <div class="content-input-field">
+                            <input asp-for="@Model.Contact" type="text" value="" placeholder="UserPhone" required="">
                         </div>
                     </div>
                     <div class="field-group">
                         <div class="content-input-field">
-                            <input name="password" id="myInput" type="Password" placeholder="Password">
+                            <input asp-for="@Model.Password" type="Password" placeholder="Password">
                         </div>
                     </div>
+                    <div class="field-group">
+
+                        <div class="content-input-field" style="display: inline-flex">
+                            <label style="min-width: 50%">Country </label>       <select id="country" class="form-control" style="min-width: 200px" asp-for="@Model.CountryId" asp-items="@Model.CountryList"></select>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="field-group">
+                        <div class="content-input-field" style="display: inline-flex">
+                            <label style="min-width: 53%">State      </label>     <select id="state" asp-for="@Model.StateId" style="min-width: 200px" class="form-control" ></select>
+                        </div>
+                    </div>
+                    <div class="field-group">
+                        <div class="content-input-field">
+                            <input asp-for="@Model.Address" type="text" placeholder="Address">
+                        </div>
+                    </div>
+                    <br/>
                     <div class="content-input-field">
                         <button type="submit" class="btn">Sign Up</button>
                     </div>
@@ -76,3 +95,36 @@
     </div>
 
 </section>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#country").change(function() {
+                var id = $(this).val();
+                var state = $("#state");
+                state.empty().append('<option selected="selected" value="0" disabled = "disabled">Loading.....</option>');
+                $.ajax({
+                    type: "POST",
+                    url: "/Category/GetStates?countryId=" + id,
+                    data: '{}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function(response) {
+                        state.empty();
+                        $.each(response,
+                            function() {
+                                state.append($("<option></option>").val(this['id']).html(this['name']));
+                            });
+                    },
+                    failure: function(response) {
+                        alert(response.responseText);
+                    },
+                    error: function(response) {
+                        alert(response.responseText);
+                    }
+                });
+            });
+            $("#country").change();
+        });
+       
+    </script>
+}

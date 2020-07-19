@@ -13,7 +13,10 @@ namespace Dal.Entities
         public string Password { get; set; }
         public string EmailId { get; set; }
         public string ContactNumber { get; set; }
+        public string PinCode { get; set; }
         public int CountryId { get; set; }
         public int StateId { get; set; }
+        public ICollection<Order> Orders { get; set; }
+
     }
 }

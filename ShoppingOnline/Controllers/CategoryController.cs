@@ -23,5 +23,10 @@ namespace ShoppingOnline.Controllers
            var data= _masterDataService.GetSubCategory(categoryId);
             return Json(data);
         }
+        public IActionResult GetStates(int countryId)
+        {
+            var data = _masterDataService.GetStates(countryId);
+            return Json(data);
+        }
     }
 }

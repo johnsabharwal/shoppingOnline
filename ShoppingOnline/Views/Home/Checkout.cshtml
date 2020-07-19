@@ -1,0 +1,174 @@
+﻿
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<div class="container py-5">
+
+    <section class="mt-5 mb-4">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card wish-list mb-4">
+                    <div class="card-body">
+                        <h5 class="mb-4">Cart (<span id="items"></span> items)</h5>
+                        <div id="products">
+
+                        </div>
+
+                        <hr class="mb-4">
+
+                        <p class="text-primary mb-0">
+                            <i class="fa fa-info-circle mr-1"></i> Do not delay the purchase, adding
+                            items to your cart does not mean booking them.
+                        </p>
+
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+
+                        <h5 class="mb-4">Expected shipping delivery</h5>
+
+                        <p class="mb-0"> Thu., 12.03. - Mon., 16.03.</p>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+
+                        <h5 class="mb-4">We accept</h5>
+
+                        <img class="mr-2" width="45px" src="https://mdbootstrap.com/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg" alt="Visa">
+                        <img class="mr-2" width="45px" src="https://mdbootstrap.com/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg" alt="American Express">
+                        <img class="mr-2" width="45px" src="https://mdbootstrap.com/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg" alt="Mastercard">
+                        <img class="mr-2" width="45px" src="https://z9t4u9f6.stackpathcdn.com/wp-content/plugins/woocommerce/includes/gateways/paypal/assets/images/paypal.png" alt="PayPal acceptance mark">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+
+                        <h5 class="mb-3">The total amount of</h5>
+
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                                Temporary amount
+                                <span id="temp-amt"></span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                Shipping
+                                <span>Free</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                                <div>
+                                    <strong>The total amount of</strong>
+                                    <strong>
+                                        <p class="mb-0">(including VAT)</p>
+                                    </strong>
+                                </div>
+                                <span><strong id="t-amt"></strong></span>
+                            </li>
+                        </ul>
+
+                        <a id="btn-checkout" href="" class="btn btn-primary btn-block waves-effect waves-light">
+                            go to
+                            checkout
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function() {
+
+            var cart = JSON.parse(localStorage.getItem("cart"));
+            if (cart != null) {
+                GetCart(cart);
+
+            } else {
+                $("#products").html('<h3>No product in cart</h3>');
+            }
+        });
+
+        function GetCart(item) {
+            $.ajax({
+                type: "POST",
+                url: "/Home/GetCart",
+                data: { items: item },
+                // contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(response) {
+                    var html = '';
+                    var items = 0;
+                    var amount = 0;
+                    $.each(response,
+                        function() {
+                            items++;
+                            amount += parseInt(this['discountPrice']);
+                            html += '<div class="row mb-4">\
+                                    <div class="col-md-5 col-lg-3 col-xl-3">\
+                                    <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">\
+                                    <img class="img-fluid w-100" src="' +
+                                this['uploadPath'] +
+                                '" alt="Sample">\
+                                    </div></div>\
+                                    <div class="col-md-7 col-lg-9 col-xl-9"><div>\
+                                    <div class="d-flex justify-content-between"><div>\
+                                    <h5>' +
+                                this['productName'] +
+                                '</h5>\
+                                    <p class="mb-3 text-muted text-uppercase small">Shirt - blue</p>\
+                                    <p class="mb-2 text-muted text-uppercase small">Color: blue</p>\
+                                    <p class="mb-3 text-muted text-uppercase small">Size: M</p>\
+                                    </div><div>\
+                                    <div class="def-number-input number-input safari_only mb-0 w-100">\
+                                    <input class="quantity" min="0" readonly name="quantity" value="1" type="number">\
+                                    </div><small id="passwordHelpBlock" class="form-text text-muted text-center">\
+                                    (Note, 1 piece)</small></div></div>\
+                                    <div class="d-flex justify-content-between align-items-center"><div>\
+                                    <a href="#!" type="button" onclick="Delete(' +
+                                this['productId'] +
+                                ')" class="card-link-secondary small text-uppercase mr-3"><i class="fa fa-trash mr-1"></i> Remove item </a>\
+                                    </div><p class="mb-0"><span><strong>$' +
+                                this['discountPrice'] +
+                                '</strong></span></p>\
+                                    </div></div></div></div>';
+                            // state.append($("<option></option>").val(this['id']).html(this['uploadPath']));
+                        });
+                    $("#products").html(html);
+                    $('#items').text(items);
+                    $("#temp-amt").text('$' + amount);
+                    $("#t-amt").text('$' + amount);
+                    if (items > 0) {
+                        $("#btn-checkout").attr("href", '/home/placeorder?userid=' + localStorage.getItem("uid"));
+                    } else {
+                        $("#btn-checkout").attr("href", 'javascript:void(0);');
+                    }
+                },
+                failure: function(response) {
+                    alert(response.responseText);
+                },
+                error: function(response) {
+                    alert(response.responseText);
+                }
+            });
+        }
+
+        function Delete(id) {
+            var cart = JSON.parse(localStorage.getItem("cart"));
+            if (cart != null) {
+
+                var index = cart.indexOf(id.toString());
+                if (index > -1) {
+                    cart.splice(index, 1);
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                }
+                location.reload();
+            }
+        }
+    </script>
+}

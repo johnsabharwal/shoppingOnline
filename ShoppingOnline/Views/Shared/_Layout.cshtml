@@ -9,7 +9,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <html lang="zxx">
 
 <head>
-    <title>ShoppiMania </title>
+    <title>Baggage Ecommerce Category Bootstrap Responsive Web Template | Shop :: W3layouts</title>
     <!-- Meta tag Keywords -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" />
@@ -23,34 +23,38 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             window.scrollTo(0, 1);
         }
     </script>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-
-    <link href="~/css/style.css" rel="stylesheet" />
+    <!-- //Meta tag Keywords -->
+    <!-- Custom-Files -->
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <!-- Bootstrap-Core-CSS -->
+    <link rel="stylesheet" href="/css/style.css" type="text/css" media="all" />
     <!-- Style-CSS -->
     <!-- font-awesome-icons -->
-    <link href="~/css/font-awesome.css" rel="stylesheet" />
+    <link href="/css/font-awesome.css" rel="stylesheet">
+
     <!-- //font-awesome-icons -->
     <!-- /Fonts -->
     <link href="//fonts.googleapis.com/css?family=Hind:300,400,500,600,700" rel="stylesheet">
-    <!-- //Fonts -->
-
-    <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap.min.css" rel="stylesheet" />
 </head>
 
 <body>
-    <div class="main-sec  @ViewBag.Class">
+    <div class="main-sec inner-page">
         <!-- //header -->
         <header class="py-sm-3 pt-3 pb-2" id="home">
             <div class="container">
                 <!-- nav -->
                 <div class="top-w3pvt d-flex">
                     <div id="logo">
-                        <h1> <a href="/"><span class="log-w3pvt">S</span>hoppiMania</a> </h1>
+                        <h1> <a href="/"><span class="log-w3pvt">B</span>aggage</a> <label class="sub-des">Online Store</label></h1>
                     </div>
 
-                    <div class="forms ml-auto">
-                        <a href="/company/companylogin" class="btn"><span class="fa fa-user-circle-o"></span> Sign In</a>
-                        <a href="/company/registercompany" class="btn"><span class="fa fa-pencil-square-o"></span> Sign Up</a>
+                    <div class="forms ml-auto" id="signin">
+                        <a href="/account/login" class="btn"><span class="fa fa-user-circle-o"></span> Sign In</a>
+                        <a href="/account/register" class="btn"><span class="fa fa-pencil-square-o"></span> Sign Up</a>
+                    </div>
+                    <div class="forms ml-auto" id="checkout">
+                        <a href="login.html" class="btn"><span class="fa fa-user-circle-o"></span> <span id="txtname">john</span><span style="color:white"><a id="logout" href="javascript:void(0);">logout</a></span></a>
+                        <a href="/home/checkout" class="btn"><span class="fa fa-cart-plus"></span> checkout(<span id="ccount"></span>)</a>
                     </div>
                 </div>
                 <div class="nav-top-wthree">
@@ -58,14 +62,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <label for="drop" class="toggle"><span class="fa fa-bars"></span></label>
                         <input type="checkbox" id="drop" />
                         <ul class="menu">
-                            <li class="active"><a href="index.html">Home</a></li>
+                            <li><a href="index.html">Home</a></li>
                             <li><a href="about.html">About Us</a></li>
                             <li>
                                 <!-- First Tier Drop Down -->
                                 <label for="drop-2" class="toggle">
-                                    Dropdown <span class="fa fa-angle-down" aria-hidden="true"></span>
+                                    Products <span class="fa fa-angle-down" aria-hidden="true"></span>
                                 </label>
-                                <a href="#">Dropdown <span class="fa fa-angle-down" aria-hidden="true"></span></a>
+                                <a href="#">Products <span class="fa fa-angle-down" aria-hidden="true"></span></a>
                                 <input type="checkbox" id="drop-2" />
                                 <ul>
                                     <li><a href="coming.html" class="drop-text">Services</a></li>
@@ -75,7 +79,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 </ul>
                             </li>
 
-                            <li><a href="shop.html">Collections</a></li>
+                            <li class="active"><a href="shop.html">Collections</a></li>
                             <li><a href="contact.html">Contact</a></li>
                         </ul>
                     </nav>
@@ -85,6 +89,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             <form action="#" method="post" class="newsletter">
                                 <input class="search" type="search" placeholder="Search here..." required="">
                                 <button class="form-control btn" value=""><span class="fa fa-search"></span></button>
+
                             </form>
                         </div>
                     </div>
@@ -93,105 +98,158 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             </div>
         </header>
         <!-- //header -->
-        <!--/banner-->
+    </div>
+    @RenderBody()
+    <div class="footer_agileinfo_topf py-5">
+        <div class="container py-md-5">
+            <div class="row">
+                <div class="col-lg-3 footer_wthree_gridf mt-lg-5">
+                    <h2>
+                        <a href="index.html">
+                            <span>B</span>aggage
+                        </a>
+                    </h2>
+                    <label class="sub-des2">Online Store</label>
+                </div>
+                <div class="col-lg-3 footer_wthree_gridf mt-md-0 mt-4">
+                    <ul class="footer_wthree_gridf_list">
+                        <li>
+                            <a href="index.html"><span class="fa fa-angle-right" aria-hidden="true"></span> Home</a>
+                        </li>
+                        <li>
+                            <a href="about.html"><span class="fa fa-angle-right" aria-hidden="true"></span> About</a>
+                        </li>
+                        <li>
+                            <a href="shop.html"><span class="fa fa-angle-right" aria-hidden="true"></span> Shop</a>
+                        </li>
+                        <li>
+                            <a href="shop.html"><span class="fa fa-angle-right" aria-hidden="true"></span>Collections</a>
+                        </li>
 
-        @RenderBody()
+                    </ul>
+                </div>
+                <div class="col-lg-3 footer_wthree_gridf mt-md-0 mt-sm-4 mt-3">
+                    <ul class="footer_wthree_gridf_list">
+                        <li>
+                            <a href="single.html"><span class="fa fa-angle-right" aria-hidden="true"></span> Extra Page</a>
+                        </li>
 
-
-
-        <!-- footer -->
-        <div class="footer_agileinfo_topf py-5">
-            <div class="container py-md-5">
-                <div class="row">
-                    <div class="col-lg-3 footer_wthree_gridf mt-lg-5">
-                        <h2>
-                            <a href="/">
-                                <span>S</span>hoppiMania
-                            </a>
-                        </h2>
-                        <label class="sub-des2">Online Store</label>
-                    </div>
-                    <div class="col-lg-3 footer_wthree_gridf mt-md-0 mt-4">
-                        <ul class="footer_wthree_gridf_list">
-                            <li>
-                                <a href="index.html"><span class="fa fa-angle-right" aria-hidden="true"></span> Home</a>
-                            </li>
-                            <li>
-                                <a href="about.html"><span class="fa fa-angle-right" aria-hidden="true"></span> About</a>
-                            </li>
-                            <li>
-                                <a href="shop.html"><span class="fa fa-angle-right" aria-hidden="true"></span> Shop</a>
-                            </li>
-                            <li>
-                                <a href="shop.html"><span class="fa fa-angle-right" aria-hidden="true"></span>Collections</a>
-                            </li>
-
-                        </ul>
-                    </div>
-                    <div class="col-lg-3 footer_wthree_gridf mt-md-0 mt-sm-4 mt-3">
-                        <ul class="footer_wthree_gridf_list">
-                            <li>
-                                <a href="single.html"><span class="fa fa-angle-right" aria-hidden="true"></span> Extra Page</a>
-                            </li>
-
-                            <li>
-                                <a href="#"><span class="fa fa-angle-right" aria-hidden="true"></span> Terms & Conditions</a>
-                            </li>
-                            <li>
-                                <a href="single.html"><span class="fa fa-angle-right" aria-hidden="true"></span> Shop Single</a>
-                            </li>
-                            <li>
-                                <a href="contact.html"><span class="fa fa-angle-right" aria-hidden="true"></span> Contact Us</a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="col-lg-3 footer_wthree_gridf mt-md-0 mt-sm-4 mt-3">
-                        <ul class="footer_wthree_gridf_list">
-                            <li>
-                                <a href="/Account/login"><span class="fa fa-angle-right" aria-hidden="true"></span> Login </a>
-                            </li>
-
-                            <li>
-                                <a href="/Account/register"><span class="fa fa-angle-right" aria-hidden="true"></span>Register</a>
-                            </li>
-                            <li>
-                                <a href="#"><span class="fa fa-angle-right" aria-hidden="true"></span>Privacy & Policy</a>
-                            </li>
-
-                        </ul>
-                    </div>
+                        <li>
+                            <a href="#"><span class="fa fa-angle-right" aria-hidden="true"></span> Terms & Conditions</a>
+                        </li>
+                        <li>
+                            <a href="single.html"><span class="fa fa-angle-right" aria-hidden="true"></span> Shop Single</a>
+                        </li>
+                        <li>
+                            <a href="contact.html"><span class="fa fa-angle-right" aria-hidden="true"></span> Contact Us</a>
+                        </li>
+                    </ul>
                 </div>
 
-                <div class="w3ls-fsocial-grid">
-                    <h3 class="sub-w3ls-headf">Follow Us</h3>
-                    <div class="social-ficons">
-                        <ul>
-                            <li><a href="#"><span class="fa fa-facebook"></span> Facebook</a></li>
-                            <li><a href="#"><span class="fa fa-twitter"></span> Twitter</a></li>
-                            <li><a href="#"><span class="fa fa-google"></span>Google</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="move-top text-center mt-lg-4 mt-3">
-                    <a href="#home"><span class="fa fa-angle-double-up" aria-hidden="true"></span></a>
+                <div class="col-lg-3 footer_wthree_gridf mt-md-0 mt-sm-4 mt-3">
+                    <ul class="footer_wthree_gridf_list">
+                        <li>
+                            <a href="login.html"><span class="fa fa-angle-right" aria-hidden="true"></span> Login </a>
+                        </li>
+
+                        <li>
+                            <a href="register.html"><span class="fa fa-angle-right" aria-hidden="true"></span>Register</a>
+                        </li>
+                        <li>
+                            <a href="#"><span class="fa fa-angle-right" aria-hidden="true"></span>Privacy & Policy</a>
+                        </li>
+
+                    </ul>
                 </div>
             </div>
-        </div>
-        <!-- //footer -->
-        <!-- copyright -->
-        <div class="cpy-right text-center py-3">
-            <p>
-                © 2020 ShoppiMania. All rights reserved | Design by
-                <a href="http://w3layouts.com"> W3layouts.</a>
-            </p>
 
+            <div class="w3ls-fsocial-grid">
+                <h3 class="sub-w3ls-headf">Follow Us</h3>
+                <div class="social-ficons">
+                    <ul>
+                        <li><a href="#"><span class="fa fa-facebook"></span> Facebook</a></li>
+                        <li><a href="#"><span class="fa fa-twitter"></span> Twitter</a></li>
+                        <li><a href="#"><span class="fa fa-google"></span>Google</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="move-top text-center mt-lg-4 mt-3">
+                <a href="#home"><span class="fa fa-angle-double-up" aria-hidden="true"></span></a>
+            </div>
         </div>
-        <!-- //copyright -->
+    </div>
+    <!-- //footer -->
+    <!-- copyright -->
+    <div class="cpy-right text-center py-3">
+        <p>
+            © 2019 Baggage. All rights reserved | Design by
+            <a href="http://w3layouts.com"> W3layouts.</a>
+        </p>
+    </div>
+    <style>
+        a#logout {
+            color: white;
+        }
+    </style>
+
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap.min.js"></script>
-        @RenderSection("scripts", false)
-</body>
+    <script>
+        $(document).ready(function() {
+            var cartItems = JSON.parse(localStorage.getItem("cart"));
+            if (cartItems != null) {
+                $("#ccount").text(cartItems.length);
 
+            } else {
+                $("#ccount").text(0);
+
+            }
+
+            var isLogin = '@TempData["isLogin"]';
+            if (isLogin=="1") {
+                localStorage.setItem("uid","@TempData["uid"]");
+                localStorage.setItem("uname","@TempData["uname"]");
+            }
+        var uname = localStorage.getItem("uname");
+        if (uname != null && uname != "") {
+            $("#txtname").text(uname);
+            $("#signin").hide();
+            $("#checkout").show();
+        } else {
+            $("#signin").show();
+            $("#checkout").hide();
+        }
+
+
+        $("#logout").click(function() {
+            localStorage.removeItem("uname");
+            localStorage.removeItem("cart");
+            localStorage.removeItem("uid");
+            location.reload();
+        });
+
+       
+
+        $(".addToCart").click(function () {
+            var pid = $(this).val();
+            var cart = JSON.parse(localStorage.getItem("cart"));
+            if (cart != null) {
+
+                var index = cart.indexOf(pid);
+                if (index < 0) {
+                    cart.push(pid);
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                }
+            } else {
+                cart = [];
+                cart.push(pid);
+                localStorage.setItem("cart", JSON.stringify(cart));
+            }
+            location.reload();
+        });
+
+    });
+    </script>
+    @RenderSection("scripts", false)
+
+</body>
 </html>

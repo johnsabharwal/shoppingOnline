@@ -21,6 +21,7 @@ namespace ShoppingOnline.Models
         public string Quantity { get; set; }
         public IFormFile ImagePath { get; set; }
         public string Price { get; set; }
+        public string DiscountPrice { get; set; }
         public string Description { get; set; }
         public int CompanyId { get; set; }
         public int ProductId { get; set; }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Dal.Entities;
 using Dal.Interface;
+using Dal.Migrations;
 
 namespace Dal.Implementation
 {
@@ -38,6 +39,11 @@ namespace Dal.Implementation
         public IEnumerable<Category> GetCategory()
         {
           return  _dbContext.Category.ToList();
+        }
+
+        public IEnumerable<State> GetStates(int countryId)
+        {
+            return _dbContext.States.Where(x => x.CountryId == countryId);
         }
     }
 }

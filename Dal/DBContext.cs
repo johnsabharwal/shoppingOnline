@@ -21,5 +21,9 @@ namespace Dal
         public DbSet<Promoter> Promoters { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<State> States { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<OrderStatus> OrderStatus { get; set; }
     }
 }

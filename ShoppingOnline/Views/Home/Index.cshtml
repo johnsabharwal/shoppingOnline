@@ -1,26 +1,72 @@
-﻿
-<div class="banner-wthree-info container">
-    <div class="row">
-        <div class="col-lg-6">
-            <a href="/company/index" class="btn shop">Company</a>
+﻿@using System.IO
+@model GetProducts
+
+
+<section class="banner-bottom py-5">
+    <div class="container py-5">
+        <h3 class="title-wthree mb-lg-5 mb-4 text-center">Shop Now</h3>
+        <!--/row-->
+        <div class="row shop-wthree-info text-center">
+            @foreach (var product in Model.products)
+            {
+                <div class="col-lg-3 shop-info-grid text-center mt-4">
+                    <div class="product-shoe-info shoe">
+                        <div class="men-thumb-item">
+                            <img src="@(product.UploadPath)" class="img-fluid" alt="">
+
+                        </div>
+                        <div class="item-info-product">
+                            <h4>
+                                <a href="/home/product?id=@product.ProductId">@product.ProductName</a>
+                            </h4>
+
+                            <div class="product_price">
+                                <div class="grid-price">
+                                    <span class="money"><span class="line">$@product.Price</span> $@product.DiscountPrice</span>
+                                </div>
+                            </div>
+                            <ul class="stars">
+                                <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
+                                <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
+                                <li><a href="#"><span class="fa fa-star-half-o" aria-hidden="true"></span></a></li>
+                                <li><a href="#"><span class="fa fa-star-half-o" aria-hidden="true"></span></a></li>
+                                <li><a href="#"><span class="fa fa-star-o" aria-hidden="true"></span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+
         </div>
 
-        <div class="col-lg-6 ">
-            <a href="/" class="btn shop">Customer</a>
-        </div>
+        <nav aria-label="Page navigation example mt-5">
+            <ul class="pagination">
+                @if (Model.page > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@("/home/Index?page="+(Model.page-1))">Previous</a>
+                    </li>
+                }
+                @for (int i = 1; i < (Model.total % 12 != 0 ? Model.total / 12 + 2 : Model.total / 12 + 1); i++)
+                {
+                    <li class="page-item">
+                        <a class="page-link @(Model.page==i?"active":"")" href="@(Model.page==i?"javascript:void(0);":"/home/Index?page="+i)">@i</a>
+                    </li>
+                }
+                @if (Model.total - Model.page * 12 > 0)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@("/home/Index?page="+(Model.page+1))">Next</a>
+                    </li>
+                }
+
+            </ul>
+        </nav>
     </div>
-</div>
-</div>
+</section>
 <style>
-    .main-sec {
-        min-height: auto !important;
-    }
-
-    .ml-auto {
-        display: none;
-    }
-
-    .nav-top-wthree {
-        display: none;
+    a.page-link.active {
+        background-color: #74d2e7;
+        cursor: not-allowed !important;
     }
 </style>

@@ -22,5 +22,10 @@ namespace Dal.Interface
         IEnumerable<Supplier> GetSuppliers(int companyId);
         IEnumerable<Promoter> GetPromoters(int companyId);
         IEnumerable<Product> GetProducts( int companyId);
+        Product GetProductById(int id);
+        IEnumerable<Product> GetProductByCategoryId(int subCategoryId);
+        IEnumerable<Product> GetProductsByIds(List<string> pIds);
+        Customer GetUserById(int userid);
+        int PlaceOrder(PlaceOrderDTO dto);
     }
 }

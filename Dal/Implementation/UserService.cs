@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Dal.DTO;
 using Dal.Entities;
+using Dal.Enum;
 using Dal.Interface;
 
 namespace Dal.Implementation
@@ -261,7 +262,66 @@ namespace Dal.Implementation
 
         public IEnumerable<Product> GetProducts(int companyId)
         {
-            return dBContext.Products.Where(x => x.CompanyId == companyId);
+            if (companyId == 0)
+            {
+                return dBContext.Products;
+            }
+            else
+            {
+                return dBContext.Products.Where(x => x.CompanyId == companyId);
+            }
+        }
+
+        public Product GetProductById(int id)
+        {
+            return dBContext.Products.Single(x => x.Id == id);
+        }
+
+        public IEnumerable<Product> GetProductByCategoryId(int subCategoryId)
+        {
+            return dBContext.Products.Where(x => x.SubCategoryId == subCategoryId).Distinct().Take(4);
+        }
+
+        public IEnumerable<Product> GetProductsByIds(List<string> pIds)
+        {
+            return dBContext.Products.Where(x => pIds.Contains(x.Id.ToString()));
+        }
+
+        public Customer GetUserById(int userid)
+        {
+            return dBContext.Customers.FirstOrDefault(x => x.Id == userid);
+        }
+
+        public int PlaceOrder(PlaceOrderDTO dto)
+        {
+            var order = new Order()
+            {
+                CustomerId = dto.UserId,
+                OrderDate = DateTime.Now,
+                PaymentType = dto.PaymentType,
+                Total = GetOrderSum(dto.Cart.Select(x => x.ProductId).ToList()),
+                OrderStatusId = (int)EnumOrderStatus.WaitingForConfirmation,
+            };
+            dBContext.Orders.Add(order);
+            dBContext.SaveChanges();
+            foreach (var item in dto.Cart)
+            {
+                dBContext.OrderDetails.Add(new OrderDetail()
+                {
+                    OrderId = order.Id,
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity
+                });
+            }
+            dBContext.SaveChanges();
+            return order.Id;
+
+        }
+
+        public int GetOrderSum(List<int> products)
+        {
+            return dBContext.Products.Where(x => products.Contains(x.Id))
+                .Select(y => (int)y.Price - (int)(y.Discount * y.Price / 100)).Sum();
         }
     }
 }

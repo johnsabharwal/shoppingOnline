@@ -4,11 +4,10 @@ using System.Text;
 
 namespace Dal.Entities
 {
-    public class Country
+    public class OrderStatus
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<State> States { get; set; }
-
+        public ICollection<Order> Orders { get; set; }
     }
 }
