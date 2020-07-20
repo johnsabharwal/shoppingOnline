@@ -129,5 +129,24 @@ namespace ShoppingOnline.Controllers
             dataTable.recordsFiltered = result.Count();
             return Json(dataTable);
         }
+        public IActionResult GetOrders(int draw, int companyId, int start, int length)
+        {
+            Models.BaseDataTable dataTable = new Models.BaseDataTable();
+            var result = _userService.GetOrders(companyId);
+            dataTable.draw = draw;
+            dataTable.data = result.Select(x => new GetOrdersVM()
+            {
+                OrderId = x.OrderId,
+                OrderStatusType = x.OrderStatusType,
+                CustomerId = x.CustomerId,
+                OrderDate = x.OrderDate,
+                PaymentType = x.PaymentType,
+                CustomerName = x.CustomerName,
+                Total = x.Total
+            }).ToList().Skip(start).Take(length);
+            dataTable.recordsTotal = result.Count();
+            dataTable.recordsFiltered = result.Count();
+            return Json(dataTable);
+        }
     }
 }

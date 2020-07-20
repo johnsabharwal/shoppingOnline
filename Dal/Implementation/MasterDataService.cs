@@ -45,5 +45,10 @@ namespace Dal.Implementation
         {
             return _dbContext.States.Where(x => x.CountryId == countryId);
         }
+
+        public IEnumerable<OrderStatus> GetOrderStatus()
+        {
+            return _dbContext.OrderStatus.ToList();
+        }
     }
 }

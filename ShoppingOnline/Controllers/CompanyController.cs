@@ -194,6 +194,18 @@ namespace ShoppingOnline.Controllers
         }
 
 
-
+        public IActionResult Orders(int companyId)
+        {
+            GetOrdersVM getOrdersVM = new GetOrdersVM();
+            getOrdersVM.CompanyId = companyId;
+            getOrdersVM.OrderList = _userService.GetOrdersId().Select(x => new SelectListItem() { Value = x.ToString(), Text = x.ToString() });
+            getOrdersVM.OrderStatus = _masterDataService.GetOrderStatus().Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name });
+            return View(getOrdersVM);
+        }
+        public IActionResult UpdateOrder(int orderId,int statusId,int companyId)
+        {
+            _userService.UpdateOrder(orderId, statusId);
+            return RedirectToAction("Orders", new {companyId = companyId});
+        }
     }
 }

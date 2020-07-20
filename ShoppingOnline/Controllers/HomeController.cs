@@ -50,8 +50,7 @@ namespace ShoppingOnline.Controllers
 
         public IActionResult Product(int id)
         {
-            
-            var product =  _userService.GetProductById(id);
+            var product = _userService.GetProductById(id);
             AddProductVM vm = new AddProductVM()
             {
                 UploadPath =
@@ -64,7 +63,7 @@ namespace ShoppingOnline.Controllers
                 DiscountPrice = (product.Price - product.Price * product.Discount / 100).ToString(),
                 Description = product.Description,
             };
-            ViewBag.SimilarProducts = _userService.GetProductByCategoryId(product.SubCategoryId).Select(x=>new AddProductVM()
+            ViewBag.SimilarProducts = _userService.GetProductByCategoryId(product.SubCategoryId).Select(x => new AddProductVM()
             {
                 UploadPath = System.IO.File.Exists(Path.Combine(webHostEnvironment.WebRootPath, "images/" + x.ImagePath))
                     ? "/images/" + x.ImagePath
@@ -82,25 +81,28 @@ namespace ShoppingOnline.Controllers
         }
         public IActionResult PlaceOrder(int userid)
         {
-            RegisterCustomerVM registerCustomerVM=new RegisterCustomerVM();
-           var user= _userService.GetUserById(userid);
-           registerCustomerVM.UserName = user.Name;
-           registerCustomerVM.EmailId = user.EmailId;
-           registerCustomerVM.Address= user.Address;
-           registerCustomerVM.Contact = user.ContactNumber;
-           registerCustomerVM.CountryId = user.CountryId;
-           registerCustomerVM.StateId = user.StateId;
-           registerCustomerVM.CountryList = _masterDataService.GetCountries().Select(x => new SelectListItem()
-           {
-               Text = x.Name,
-               Value = x.Id.ToString()
-           }).ToList();
-           registerCustomerVM.StateList = _masterDataService.GetStates(user.CountryId).Select(x => new SelectListItem()
-           {
-               Text = x.Name,
-               Value = x.Id.ToString()
-           }).ToList();
-           return View(registerCustomerVM);
+            PlaceOrderVM placeOrderVM = new PlaceOrderVM();
+            var user = _userService.GetUserById(userid);
+            placeOrderVM.User.UserName = user.Name;
+            placeOrderVM.User.EmailId = user.EmailId;
+            placeOrderVM.User.Address = user.Address;
+            placeOrderVM.User.Contact = user.ContactNumber;
+            placeOrderVM.User.CountryId = user.CountryId;
+            placeOrderVM.User.StateId = user.StateId;
+            placeOrderVM.User.Id = user.Id;
+            placeOrderVM.User.Pincode = user.PinCode;
+            placeOrderVM.User.CountryList = _masterDataService.GetCountries().Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            }).ToList();
+            placeOrderVM.User.StateList = _masterDataService.GetStates(user.CountryId).Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            }).ToList();
+
+            return View(placeOrderVM);
         }
         public IActionResult Privacy()
         {
@@ -128,7 +130,7 @@ namespace ShoppingOnline.Controllers
             var config = new MapperConfiguration(cfg => cfg.CreateMap<PlaceOrderVM, PlaceOrderDTO>());
             var mapper = new Mapper(config);
             PlaceOrderDTO dto = mapper.Map<PlaceOrderDTO>(placeOrderVM);
-            ViewBag.OrderId= _userService.PlaceOrder(dto);
+            ViewBag.OrderId = _userService.PlaceOrder(dto, placeOrderVM.User.Id);
             return View();
         }
 

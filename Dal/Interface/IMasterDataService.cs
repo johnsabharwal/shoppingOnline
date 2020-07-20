@@ -14,5 +14,6 @@ namespace Dal.Interface
         IEnumerable<SubCategory> GetSubCategory( int categoryId);
         IEnumerable<Category> GetCategory();
         IEnumerable<State> GetStates( int countryId);
+        IEnumerable<OrderStatus> GetOrderStatus();
     }
 }
