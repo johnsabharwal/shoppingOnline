@@ -35,6 +35,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- //font-awesome-icons -->
     <!-- /Fonts -->
     <link href="//fonts.googleapis.com/css?family=Hind:300,400,500,600,700" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -53,7 +54,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <a href="/account/register" class="btn"><span class="fa fa-pencil-square-o"></span> Sign Up</a>
                     </div>
                     <div class="forms ml-auto" id="checkout">
-                        <a href="#" class="btn"><span class="fa fa-user-circle-o"></span> <span id="txtname">john</span><span style="color:white"><a id="logout" href="javascript:void(0);">logout</a></span></a>
+                        <a href="" class="btn" id="dashboadrLink"><span class="fa fa-user-circle-o"></span> <span id="txtname">john</span></a><span style="color:white"><a id="logout" href="javascript:void(0);">logout</a></span>
                         <a href="/home/checkout" class="btn"><span class="fa fa-cart-plus"></span> checkout(<span id="ccount"></span>)</a>
                     </div>
                 </div>
@@ -191,8 +192,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             color: white;
         }
     </style>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
             var cartItems = JSON.parse(localStorage.getItem("cart"));
@@ -209,7 +211,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 localStorage.setItem("uid","@TempData["uid"]");
                 localStorage.setItem("uname","@TempData["uname"]");
             }
-        var uname = localStorage.getItem("uname");
+            var uname = localStorage.getItem("uname");
+            var userid = localStorage.getItem("uid");
+            $("#dashboadrLink").attr("href", "/customer/index?customerid=" + userid);
         if (uname != null && uname != "") {
             $("#txtname").text(uname);
             $("#signin").hide();

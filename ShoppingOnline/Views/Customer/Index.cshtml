@@ -1,0 +1,17 @@
+﻿<div class="banner-wthree-info container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3><span> @ViewBag.CompanyName </span></h3>
+            <a href="/customer/Profile?customerId=@ViewBag.customerId" class="btn shop">Profile</a>
+            <a href="/customer/Orders?customerId=@ViewBag.customerId" class="btn shop">Orders</a>
+            <a href="/customer/Wishlist?customerId=@ViewBag.customerId" class="btn shop">Wishlist</a>
+        </div>
+    </div>
+</div>
+</div>
+<style>
+    a.btn.shop {
+        padding: 12px;
+        margin: 4px;
+    }
+</style>

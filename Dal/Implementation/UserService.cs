@@ -320,6 +320,30 @@ namespace Dal.Implementation
 
         }
 
+        public IEnumerable<GetOrderDTO> GetOrdersByCustomerId(int customerId)
+        {
+            var result = from order in dBContext.Orders
+                         join customer in dBContext.Customers on order.CustomerId equals customer.Id
+                         join status in dBContext.OrderStatus on order.OrderStatusId equals status.Id
+                         where order.CustomerId.Equals(customerId)
+                         select new
+                         {
+                             order = order,
+                             customer = customer,
+                             status = status,
+                         };
+            return result.Select(x => new GetOrderDTO()
+            {
+                OrderId = x.order.Id,
+                OrderStatusType = x.status.Name,
+                CustomerId = x.customer.Id,
+                OrderDate = x.order.OrderDate.ToShortDateString(),
+                PaymentType = x.order.PaymentType,
+                CustomerName = x.customer.Name,
+                Total = x.order.Total
+            }).ToList();
+        }
+
         public IEnumerable<int> GetOrdersId()
         {
             return dBContext.Orders.Select(x => x.Id).ToList();
@@ -330,8 +354,8 @@ namespace Dal.Implementation
             var productsIds = dBContext.Products.Where(x => x.CompanyId.Equals(companyId)).Select(y => y.Id).Distinct().ToList();
             var orderIds = dBContext.OrderDetails.Where(x => productsIds.Contains(x.ProductId)).Select(y => y.OrderId).Distinct().ToList();
             var result = from order in dBContext.Orders
-                         //join detail in dBContext.OrderDetails on order.Id equals detail.OrderId
-                         //join detail in dBContext.OrderDetails on order.Id equals detail.OrderId
+                             //join detail in dBContext.OrderDetails on order.Id equals detail.OrderId
+                             //join detail in dBContext.OrderDetails on order.Id equals detail.OrderId
                          join customer in dBContext.Customers on order.CustomerId equals customer.Id
                          join status in dBContext.OrderStatus on order.OrderStatusId equals status.Id
                          where orderIds.Contains(order.Id)
