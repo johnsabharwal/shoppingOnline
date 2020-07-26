@@ -113,7 +113,7 @@ namespace ShoppingOnline.Controllers
         public IActionResult GetProducts(int draw, int companyId, int start, int length)
         {
             Models.BaseDataTable dataTable = new Models.BaseDataTable();
-            var result = _userService.GetProducts(companyId);
+            var result = _userService.GetProducts(companyId,"","");
             dataTable.draw = draw;
             dataTable.data = result.Select(x => new AddProductVM()
             {

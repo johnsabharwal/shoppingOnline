@@ -9,7 +9,7 @@ namespace Dal.Interface
     public interface IUserService
     {
         int CreateCompany(RegisterCompanyDTO registerCompanyDTO);
-        int CompanyLogin(string emailid, string password);
+        Company CompanyLogin(string emailid, string password);
         void CreateAndUpdateDepartment(AddDepartmentDTO dto);
         void CreateAndUpdateOfficer(AddOfficerDTO dto);
         void CreateAndUpdateEmployee(AddEmployeeDTO dto);
@@ -21,7 +21,7 @@ namespace Dal.Interface
         IEnumerable<Employee> GetEmployees(int companyId);
         IEnumerable<Supplier> GetSuppliers(int companyId);
         IEnumerable<Promoter> GetPromoters(int companyId);
-        IEnumerable<Product> GetProducts( int companyId);
+        IEnumerable<Product> GetProducts( int companyId,string search,string filter);
         Product GetProductById(int id);
         IEnumerable<Product> GetProductByCategoryId(int subCategoryId);
         IEnumerable<Product> GetProductsByIds(List<string> pIds);

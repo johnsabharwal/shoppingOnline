@@ -9,24 +9,17 @@
                 <h3 class="title-wthree mb-lg-5 mb-4 ">Shop Now</h3>
 
             </div>
-                <div class="col-md-4">
-                    Sort
-                    <select class="form-control">
-                        <option value="value">Most Popular</option>
-                        <option value="value">Most Frequent</option>
-                        <option value="value">Low To High</option>
-                        <option value="value">High To Low</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    Order
-                    <select class="form-control">
-                        <option value="value">Ascending</option>
-                        <option value="value">Descending</option>
-                    </select>
-                </div>
+            <div class="col-md-4">
+                Sort
+                <select class="form-control" id="ddlFilter" >
+                    <option value="Popular">Most Popular</option>
+                    <option value="Frequent">Most Frequent</option>
+                    <option value="Low">Low To High</option>
+                    <option value="High">High To Low</option>
+                </select>
             </div>
-       
+        </div>
+
         <!--/row-->
         <div class="row shop-wthree-info text-center">
             @foreach (var product in Model.products)
@@ -92,3 +85,20 @@
         cursor: not-allowed !important;
     }
 </style>
+
+
+
+@section scripts{
+
+    <script>
+        $("#divSearch").show();
+
+        $("#ddlFilter").change(function() {
+            var value = $(this).val();
+            location.href = "/home/index?page=@Model.page&search=@ViewBag.search&filter=" + value;
+        });
+        $(document).ready(function() {
+            $("#ddlFilter").val('@ViewBag.filter');
+        });
+    </script>
+}

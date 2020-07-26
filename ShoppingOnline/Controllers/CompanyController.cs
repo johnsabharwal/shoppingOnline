@@ -13,7 +13,7 @@ using ShoppingOnline.Models;
 
 namespace ShoppingOnline.Controllers
 {
-    public class CompanyController : Controller
+    public class CompanyController : BaseController
     {
         private readonly IUserService _userService;
         private readonly IMasterDataService _masterDataService;
@@ -44,12 +44,17 @@ namespace ShoppingOnline.Controllers
         {
             var result = _userService.CompanyLogin(emailId, password);
 
-            if (result > 0)
+            if (result !=null)
             {
-                return RedirectToAction("CompanyDashboard",new { companyId = result });
+                ShowToaster("Welcome", ToasterLevel.Success);
+                TempData["isLogin"] = 1;
+                TempData["cid"] = result.Id;
+                TempData["companyname"] = result.Name;
+                return RedirectToAction("CompanyDashboard",new { companyId = result.Id });
             }
             else
             {
+                ShowToaster("Invalid Username/Password", ToasterLevel.Danger);
                 return RedirectToAction("CompanyLogin");
             }
         }
@@ -76,10 +81,12 @@ namespace ShoppingOnline.Controllers
             var cid = _userService.CreateCompany(dto);
             if (cid > 0)
             {
+                ShowToaster("Welcome", ToasterLevel.Success);
                 return RedirectToAction("CompanyDashboard");
             }
             else
             {
+                ShowToaster("Email-id already exists for this company", ToasterLevel.Danger);
                 return RedirectToAction("RegisterCompany");
             }
 
@@ -93,10 +100,17 @@ namespace ShoppingOnline.Controllers
         }
         public IActionResult CreateDepartment(AddDepartmentVM addDepartmentVM)
         {
+            if (!ModelState.IsValid)
+            {
+                ShowToaster("Please fill required fields", ToasterLevel.Danger);
+                return RedirectToAction("Departments", "Company", new { companyId = addDepartmentVM.CompanyId });
+            }
             var config = new MapperConfiguration(cfg => cfg.CreateMap<AddDepartmentVM, AddDepartmentDTO>());
             var mapper = new Mapper(config);
             AddDepartmentDTO dto = mapper.Map<AddDepartmentDTO>(addDepartmentVM);
             _userService.CreateAndUpdateDepartment(dto);
+            ShowToaster("Department created successfully", ToasterLevel.Success);
+
             return RedirectToAction("Departments", "Company", new { companyId = dto.CompanyId });
         }
 
@@ -109,10 +123,17 @@ namespace ShoppingOnline.Controllers
         }
         public IActionResult CreateOfficer(AddOfficerVM addOfficerVM)
         {
+            if (!ModelState.IsValid)
+            {
+                ShowToaster("Please fill required fields", ToasterLevel.Danger);
+                return RedirectToAction("Officers", "Company", new { companyId = addOfficerVM.CompanyId });
+            }
             var config = new MapperConfiguration(cfg => cfg.CreateMap<AddOfficerVM, AddOfficerDTO>());
             var mapper = new Mapper(config);
             AddOfficerDTO dto = mapper.Map<AddOfficerDTO>(addOfficerVM);
             _userService.CreateAndUpdateOfficer(dto);
+            ShowToaster("Officer created successfully", ToasterLevel.Success);
+
             return RedirectToAction("Officers", "Company", new { companyId = dto.CompanyId });
         }
         public IActionResult Employees(int companyId)
@@ -124,10 +145,17 @@ namespace ShoppingOnline.Controllers
         }
         public IActionResult CreateEmployee(AddEmployeeVM addEmployeeVM)
         {
+            if (!ModelState.IsValid)
+            {
+                ShowToaster("Please fill required fields", ToasterLevel.Danger);
+                return RedirectToAction("Employees", "Company", new { companyId = addEmployeeVM.CompanyId });
+            }
             var config = new MapperConfiguration(cfg => cfg.CreateMap<AddEmployeeVM, AddEmployeeDTO>());
             var mapper = new Mapper(config);
             AddEmployeeDTO dto = mapper.Map<AddEmployeeDTO>(addEmployeeVM);
             _userService.CreateAndUpdateEmployee(dto);
+            ShowToaster("Employee created successfully", ToasterLevel.Success);
+
             return RedirectToAction("Employees", "Company", new { companyId = dto.CompanyId });
         }
         public IActionResult Suppliers(int companyId)
@@ -138,10 +166,17 @@ namespace ShoppingOnline.Controllers
         }
         public IActionResult CreateSupplier(AddSuppliersVM addSuppliersVM)
         {
+            if (!ModelState.IsValid)
+            {
+                ShowToaster("Please fill required fields", ToasterLevel.Danger);
+                return RedirectToAction("Suppliers", "Company", new { companyId = addSuppliersVM.CompanyId });
+            }
             var config = new MapperConfiguration(cfg => cfg.CreateMap<AddSuppliersVM, AddSupplierDTO>());
             var mapper = new Mapper(config);
             AddSupplierDTO dto = mapper.Map<AddSupplierDTO>(addSuppliersVM);
             _userService.CreateAndUpdateSuppplier(dto);
+            ShowToaster("Supplier created successfully", ToasterLevel.Success);
+
             return RedirectToAction("Suppliers", "Company", new { companyId = dto.CompanyId });
         }
         public IActionResult Products(int companyId)
@@ -154,11 +189,18 @@ namespace ShoppingOnline.Controllers
         [HttpPost]
         public IActionResult AddProduct(AddProductVM addProductVM)
         {
+            if (!ModelState.IsValid)
+            {
+                ShowToaster("Please fill required fields", ToasterLevel.Danger);
+                return RedirectToAction("Products", "Company", new { companyId = addProductVM.CompanyId });
+            }
             var config = new MapperConfiguration(cfg => cfg.CreateMap<AddProductVM, AddProductDTO>());
             var mapper = new Mapper(config);
             AddProductDTO dto = mapper.Map<AddProductDTO>(addProductVM);
             dto.ImagePath = UploadedFile(addProductVM);
             _userService.CreateAndUpdateProduct(dto);
+            ShowToaster("Product created successfully", ToasterLevel.Success);
+
             return RedirectToAction("Products", "Company", new { companyId = dto.CompanyId });
         }
 
@@ -186,10 +228,17 @@ namespace ShoppingOnline.Controllers
         }
         public IActionResult CreatePromoter(AddPromotersVM addPromotersVM)
         {
+            if (!ModelState.IsValid)
+            {
+                ShowToaster("Please fill required fields", ToasterLevel.Danger);
+                return RedirectToAction("Promoters", "Company", new { companyId = addPromotersVM.CompanyId });
+            }
             var config = new MapperConfiguration(cfg => cfg.CreateMap<AddPromotersVM, AddPromotersDTO>());
             var mapper = new Mapper(config);
             AddPromotersDTO dto = mapper.Map<AddPromotersDTO>(addPromotersVM);
             _userService.CreateAndUpdatePromoter(dto);
+            ShowToaster("Promoter created successfully", ToasterLevel.Success);
+
             return RedirectToAction("Promoters", "Company", new { companyId = dto.CompanyId });
         }
 
@@ -205,6 +254,8 @@ namespace ShoppingOnline.Controllers
         public IActionResult UpdateOrder(int orderId,int statusId,int companyId)
         {
             _userService.UpdateOrder(orderId, statusId);
+            ShowToaster("Order update successfully", ToasterLevel.Success);
+
             return RedirectToAction("Orders", new {companyId = companyId});
         }
     }

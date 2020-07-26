@@ -12,7 +12,7 @@ using ShoppingOnline.Models;
 
 namespace ShoppingOnline.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly ICustomerService _customerService;
         private readonly IMasterDataService _masterDataService;
@@ -31,6 +31,11 @@ namespace ShoppingOnline.Controllers
         }
         public IActionResult UserLogin(string emailId, string password)
         {
+            if (string.IsNullOrEmpty(emailId) || string.IsNullOrEmpty(password))
+            {
+                ShowToaster("Please fill required fields", ToasterLevel.Danger);
+                return RedirectToAction("Login", "Account");
+            }
             ViewBag.Class = "inner-page";
             var customer = _customerService.GetCustomer(emailId, password);
             if (customer != null)
@@ -38,18 +43,20 @@ namespace ShoppingOnline.Controllers
                 TempData["isLogin"] = 1;
                 TempData["uid"] = customer.Id;
                 TempData["uname"] = customer.Name;
+                ShowToaster("Welcome", ToasterLevel.Success);
                 return RedirectToAction("index", "home");
 
             }
             else
             {
+                ShowToaster("Invalid Username/password", ToasterLevel.Danger);
                 return RedirectToAction("Login", "Account");
 
             }
         }
         public IActionResult Register()
         {
-            RegisterCustomerVM registerCustomerVM=new RegisterCustomerVM();
+            RegisterCustomerVM registerCustomerVM = new RegisterCustomerVM();
             ViewBag.Class = "inner-page";
             registerCustomerVM.CountryList = _masterDataService.GetCountries().Select(x => new SelectListItem()
             {
@@ -61,6 +68,11 @@ namespace ShoppingOnline.Controllers
 
         public IActionResult UserRegister(RegisterCustomerVM registerCustomer)
         {
+            if (!ModelState.IsValid)
+            {
+                ShowToaster("Please fill required fields", ToasterLevel.Danger);
+                return RedirectToAction("Register", "Account");
+            }
             ViewBag.Class = "inner-page";
             var config = new MapperConfiguration(cfg => cfg.CreateMap<RegisterCustomerVM, RegisterCustomerDTO>());
             var mapper = new Mapper(config);
@@ -70,14 +82,16 @@ namespace ShoppingOnline.Controllers
             {
                 TempData["isLogin"] = 1;
                 TempData["uid"] = customer.Id;
-                TempData["uname"]= customer.Name;
-              return  RedirectToAction("index", "home");
+                TempData["uname"] = customer.Name;
+                ShowToaster("User register successfully", ToasterLevel.Success);
+                return RedirectToAction("index", "home");
             }
             else
             {
+                ShowToaster("Email id already exists", ToasterLevel.Danger);
                 return RedirectToAction("Register", "Account");
             }
-           
+
         }
     }
 }

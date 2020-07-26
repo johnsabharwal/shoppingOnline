@@ -18,9 +18,9 @@ namespace Dal.Implementation
             dBContext = db;
         }
 
-        public int CompanyLogin(string emailid, string password)
+        public Company CompanyLogin(string emailid, string password)
         {
-            return dBContext.Companys.FirstOrDefault(x => x.EmailAddress.Equals(emailid) && x.Password == password)?.Id ?? 0;
+            return dBContext.Companys.FirstOrDefault(x => x.EmailAddress.Equals(emailid) && x.Password == password);
         }
 
         public void CreateAndUpdateDepartment(AddDepartmentDTO dto)
@@ -243,29 +243,54 @@ namespace Dal.Implementation
         }
         public int CreateCompany(RegisterCompanyDTO registerCompanyDTO)
         {
-
-            var company = new Company()
+            if (!dBContext.Companys.Any(x=>x.EmailAddress.Equals(registerCompanyDTO.EmailId)))
             {
-                CountryId = registerCompanyDTO.CountryId,
-                Name = registerCompanyDTO.Name,
-                Address = registerCompanyDTO.Address,
-                BusinessTypeId = registerCompanyDTO.BusinessTypeId,
-                ContactNumber = registerCompanyDTO.Contact,
-                EmailAddress = registerCompanyDTO.EmailId,
-                OwnerName = registerCompanyDTO.CompanyName,
-                Username = registerCompanyDTO.UserName,
-                Password = registerCompanyDTO.Password
-            };
-            dBContext.Companys.Add(company);
-            dBContext.SaveChanges();
-            return company.Id;
+                var company = new Company()
+                {
+                    CountryId = registerCompanyDTO.CountryId,
+                    Name = registerCompanyDTO.Name,
+                    Address = registerCompanyDTO.Address,
+                    BusinessTypeId = registerCompanyDTO.BusinessTypeId,
+                    ContactNumber = registerCompanyDTO.Contact,
+                    EmailAddress = registerCompanyDTO.EmailId,
+                    OwnerName = registerCompanyDTO.CompanyName,
+                    Username = registerCompanyDTO.UserName,
+                    Password = registerCompanyDTO.Password
+                };
+                dBContext.Companys.Add(company);
+                dBContext.SaveChanges();
+                return company.Id;
+            }
+            else
+            {
+                return 0;
+            }
+            
         }
 
-        public IEnumerable<Product> GetProducts(int companyId)
+        public IEnumerable<Product> GetProducts(int companyId, string search, string filter)
         {
             if (companyId == 0)
             {
-                return dBContext.Products;
+                var query= dBContext.Products.Where(x => string.IsNullOrEmpty(search) || x.ProductName.Contains(search)).AsQueryable();
+                switch (filter?.ToLower())
+                {
+                    case "popular":
+                        return query.OrderByDescending(x => x.Id).ToList();
+                        break;
+                    case "frequent":
+                        return query.OrderByDescending(x => x.Id).ToList();
+                        break;
+                    case "low":
+                        return query.OrderBy(x => x.Price).ToList();
+                        break;
+                    case "high":
+                        return query.OrderByDescending(x => x.Price).ToList();
+                        break;
+                    default:
+                        return query.OrderByDescending(x => x.Id).ToList();
+                        break;
+                }
             }
             else
             {

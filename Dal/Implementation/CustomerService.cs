@@ -11,9 +11,12 @@ namespace Dal.Implementation
     public class CustomerService : ICustomerService
     {
         DBContext dBContext;
-        public CustomerService(DBContext db)
+        private readonly IEmailSenderService _emailSenderService;
+        public CustomerService(DBContext db,
+            IEmailSenderService emailSenderService)
         {
             dBContext = db;
+            _emailSenderService = emailSenderService;
         }
         public Customer GetCustomer(string emailId, string password)
         {
@@ -35,10 +38,20 @@ namespace Dal.Implementation
                     CountryId = dto.CountryId,
                     StateId = dto.StateId,
                     Username = dto.UserName,
-                    PinCode = dto.Pincode
+                    PinCode = dto.Pincode,
+                    IsEmailVerified = false
                 };
                 dBContext.Customers.Add(customer);
+                Random generator = new Random();
+                String code = generator.Next(0, 999999).ToString("D6");
+                dBContext.EmailVerification.Add(new EmailVerification()
+                {
+                    Code = code,
+                    Email = dto.EmailId
+                });
                 dBContext.SaveChanges();
+                var link = "https://localhost:44397/Account/VerifyEmail?email="+ dto.EmailId+"&code="+ code;
+                _emailSenderService.SendEmail(dto.EmailId, dto.UserName, "Your are register successfully", link, "https://pbs.twimg.com/media/Ed0u4lSVoAAcPVN?format=png&name=small");
                 return customer;
             }
             else

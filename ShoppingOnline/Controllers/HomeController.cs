@@ -15,7 +15,7 @@ using ShoppingOnline.Models;
 
 namespace ShoppingOnline.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly IUserService _userService;
         private readonly IWebHostEnvironment webHostEnvironment;
@@ -30,11 +30,11 @@ namespace ShoppingOnline.Controllers
             _masterDataService = masterDataService;
         }
 
-        public IActionResult Index(int page = 1)
+        public IActionResult Index(string search, string filter, int page = 1)
         {
             GetProducts getProducts = new GetProducts();
             ViewBag.Class = "";
-            var products = getProducts.products = _userService.GetProducts(0).Select(x => new AddProductVM()
+            var products = getProducts.products = _userService.GetProducts(0, search, filter).Select(x => new AddProductVM()
             {
                 UploadPath = System.IO.File.Exists(Path.Combine(webHostEnvironment.WebRootPath, "images/" + x.ImagePath)) ? "/images/" + x.ImagePath : "/images/noimage.png",
                 ProductName = x.ProductName,
@@ -44,7 +44,11 @@ namespace ShoppingOnline.Controllers
             }).ToList();
             getProducts.total = products.Count();
             getProducts.page = page;
+            ViewBag.page = page;
+            ViewBag.filter = filter ?? "Popular";
+            ViewBag.search = search;
             getProducts.products = products.Skip((page - 1) * 12).Take(12).ToList();
+
             return View(getProducts);
         }
 
@@ -131,6 +135,8 @@ namespace ShoppingOnline.Controllers
             var mapper = new Mapper(config);
             PlaceOrderDTO dto = mapper.Map<PlaceOrderDTO>(placeOrderVM);
             ViewBag.OrderId = _userService.PlaceOrder(dto, placeOrderVM.User.Id);
+            ShowToaster("Order Placed successfully", ToasterLevel.Success);
+
             return View();
         }
 

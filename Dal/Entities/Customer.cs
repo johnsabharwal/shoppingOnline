@@ -16,6 +16,7 @@ namespace Dal.Entities
         public string PinCode { get; set; }
         public int CountryId { get; set; }
         public int StateId { get; set; }
+        public bool IsEmailVerified { get; set; }
         public ICollection<Order> Orders { get; set; }
 
     }

@@ -10,7 +10,7 @@
                 <span class="fa fa-user-circle-o"></span>
             </div>
             <div class="content-bottom">
-                <form action="/Account/UserRegister" method="post">
+                <form action="/Account/UserRegister" method="post" >
                     <div class="field-group">
 
                         <div class="content-input-field">
@@ -57,6 +57,8 @@
                         </div>
                     </div>
                     <br />
+                    <div style="color:red" asp-validation-summary="All"></div>
+
                     <div class="content-input-field">
                         <button type="submit" class="btn">Sign Up</button>
                     </div>
@@ -72,35 +74,10 @@
         </div>
     </div>
 </section>
-<section class="shipping-wthree">
-    <div class="shiopping-grids d-lg-flex">
-        <div class="col-lg-4 shiopping-w3pvt-gd text-center">
-            <div class="icon-gd"><span class="fa fa-truck" aria-hidden="true"></span>
-            </div>
-            <div class="icon-gd-info">
-                <h3>FREE SHIPPING</h3>
-                <p>On all order over $2000</p>
-            </div>
-        </div>
-        <div class="col-lg-4 shiopping-w3pvt-gd sec text-center">
-            <div class="icon-gd"><span class="fa fa-bullhorn" aria-hidden="true"></span></div>
-            <div class="icon-gd-info">
-                <h3>FREE RETURN</h3>
-                <p>On 1st exchange in 30 days</p>
-            </div>
-        </div>
-        <div class="col-lg-4 shiopping-w3pvt-gd text-center">
-            <div class="icon-gd"> <span class="fa fa-gift" aria-hidden="true"></span></div>
-            <div class="icon-gd-info">
-                <h3>MEMBER DISCOUNT</h3>
-                <p>Register &amp; save up to $29%</p>
-            </div>
 
-        </div>
-    </div>
-
-</section>
 @section scripts{
+    <script src="~/js/jquery.validate.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
     <script>
         $(document).ready(function () {
             $("#country").change(function() {

@@ -28,10 +28,12 @@ namespace ShoppingOnline
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            var connection = @"Server=WIN-KV3NMFHON1F;Database=ShoppingOnline;Trusted_Connection=True;";
+            var connection = @"Server=LAPTOP-EK0HL9J6;Database=ShoppingOnline;Trusted_Connection=True;";
             services.AddDbContext<DBContext>(options => options.UseSqlServer(connection));
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IMasterDataService, MasterDataService>();
+            services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IEmailSenderService, EmailSenderService>();
             services.AddRazorPages()
                 .AddRazorRuntimeCompilation();
         }
@@ -45,7 +47,7 @@ namespace ShoppingOnline
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Home/Danger");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
