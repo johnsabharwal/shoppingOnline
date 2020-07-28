@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Dal.DTO;
 
 namespace Dal.Entities
 {
@@ -16,7 +17,8 @@ namespace Dal.Entities
         public string Description { get; set; }
         public int CompanyId { get; set; }
         public SubCategory SubCategory { get; set; }
-
+        public ICollection<Review> Reviews { get; set; }
+        public ICollection<OrderDetail> OrderDetails { get; set; }
         public Company Company { get; set; }
 
     }

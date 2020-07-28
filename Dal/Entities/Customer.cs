@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Dal.DTO;
 
 namespace Dal.Entities
 {
@@ -18,6 +19,6 @@ namespace Dal.Entities
         public int StateId { get; set; }
         public bool IsEmailVerified { get; set; }
         public ICollection<Order> Orders { get; set; }
-
+        public ICollection<Review> Reviews { get; set; }
     }
 }

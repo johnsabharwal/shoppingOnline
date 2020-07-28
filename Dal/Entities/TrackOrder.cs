@@ -4,13 +4,14 @@ using System.Text;
 
 namespace Dal.Entities
 {
-   public  class OrderDetail
+    public class TrackOrder
     {
         public int Id { get; set; }
         public int OrderId { get; set; }
-        public int ProductId { get; set; }
-        public int Quantity { get; set; }
+        public string TrackStatus { get; set; }
+        public DateTime LastUpdate { get; set; }
         public Order Order { get; set; }
-        public Product Product { get; set; }
+
+        
     }
 }

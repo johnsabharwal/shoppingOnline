@@ -22,6 +22,32 @@ namespace Dal.Implementation
         {
             return dBContext.Companys.FirstOrDefault(x => x.EmailAddress.Equals(emailid) && x.Password == password);
         }
+        public int CreateCompany(RegisterCompanyDTO registerCompanyDTO)
+        {
+            if (!dBContext.Companys.Any(x => x.EmailAddress.Equals(registerCompanyDTO.EmailId)))
+            {
+                var company = new Company()
+                {
+                    CountryId = registerCompanyDTO.CountryId,
+                    Name = registerCompanyDTO.Name,
+                    Address = registerCompanyDTO.Address,
+                    BusinessTypeId = registerCompanyDTO.BusinessTypeId,
+                    ContactNumber = registerCompanyDTO.Contact,
+                    EmailAddress = registerCompanyDTO.EmailId,
+                    OwnerName = registerCompanyDTO.CompanyName,
+                    Username = registerCompanyDTO.UserName,
+                    Password = registerCompanyDTO.Password
+                };
+                dBContext.Companys.Add(company);
+                dBContext.SaveChanges();
+                return company.Id;
+            }
+            else
+            {
+                return 0;
+            }
+
+        }
 
         public void CreateAndUpdateDepartment(AddDepartmentDTO dto)
         {
@@ -54,6 +80,10 @@ namespace Dal.Implementation
             }
         }
 
+        public IEnumerable<Department> GetDepartments(int companyId)
+        {
+            return dBContext.Departments.Where(x => x.CompanyId == companyId);
+        }
         public void CreateAndUpdateOfficer(AddOfficerDTO dto)
         {
             if (dto.OfficerId != 0)
@@ -85,6 +115,10 @@ namespace Dal.Implementation
                 dBContext.Officers.Add(officer);
                 dBContext.SaveChanges();
             }
+        }
+        public IEnumerable<Officer> GetOfficers(int companyId)
+        {
+            return dBContext.Officers.Where(x => x.CompanyId == companyId);
         }
 
         public void CreateAndUpdateEmployee(AddEmployeeDTO dto)
@@ -219,15 +253,8 @@ namespace Dal.Implementation
             }
         }
 
-        public IEnumerable<Department> GetDepartments(int companyId)
-        {
-            return dBContext.Departments.Where(x => x.CompanyId == companyId);
-        }
+     
 
-        public IEnumerable<Officer> GetOfficers(int companyId)
-        {
-            return dBContext.Officers.Where(x => x.CompanyId == companyId);
-        }
         public IEnumerable<Employee> GetEmployees(int companyId)
         {
             return dBContext.Employees.Where(x => x.CompanyId == companyId);
@@ -241,32 +268,7 @@ namespace Dal.Implementation
         {
             return dBContext.Promoters.Where(x => x.CompanyId == companyId);
         }
-        public int CreateCompany(RegisterCompanyDTO registerCompanyDTO)
-        {
-            if (!dBContext.Companys.Any(x=>x.EmailAddress.Equals(registerCompanyDTO.EmailId)))
-            {
-                var company = new Company()
-                {
-                    CountryId = registerCompanyDTO.CountryId,
-                    Name = registerCompanyDTO.Name,
-                    Address = registerCompanyDTO.Address,
-                    BusinessTypeId = registerCompanyDTO.BusinessTypeId,
-                    ContactNumber = registerCompanyDTO.Contact,
-                    EmailAddress = registerCompanyDTO.EmailId,
-                    OwnerName = registerCompanyDTO.CompanyName,
-                    Username = registerCompanyDTO.UserName,
-                    Password = registerCompanyDTO.Password
-                };
-                dBContext.Companys.Add(company);
-                dBContext.SaveChanges();
-                return company.Id;
-            }
-            else
-            {
-                return 0;
-            }
-            
-        }
+       
 
         public IEnumerable<Product> GetProducts(int companyId, string search, string filter)
         {
