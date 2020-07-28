@@ -77,7 +77,7 @@ namespace ShoppingOnline.Controllers
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<CreateCompanyVM, RegisterCompanyDTO>());
             var mapper = new Mapper(config);
-            RegisterCompanyDTO dto = mapper.Map<RegisterCompanyDTO>(createCompanyVM);
+            RegisterCompanyDTO dto = mapper.DefaultContext.Mapper.Map<RegisterCompanyDTO>(createCompanyVM);
             var cid = _userService.CreateCompany(dto);
             if (cid > 0)
             {
@@ -107,7 +107,7 @@ namespace ShoppingOnline.Controllers
             }
             var config = new MapperConfiguration(cfg => cfg.CreateMap<AddDepartmentVM, AddDepartmentDTO>());
             var mapper = new Mapper(config);
-            AddDepartmentDTO dto = mapper.Map<AddDepartmentDTO>(addDepartmentVM);
+            AddDepartmentDTO dto = mapper.DefaultContext.Mapper.Map<AddDepartmentDTO>(addDepartmentVM);
             _userService.CreateAndUpdateDepartment(dto);
             ShowToaster("Department created successfully", ToasterLevel.Success);
 
@@ -130,7 +130,7 @@ namespace ShoppingOnline.Controllers
             }
             var config = new MapperConfiguration(cfg => cfg.CreateMap<AddOfficerVM, AddOfficerDTO>());
             var mapper = new Mapper(config);
-            AddOfficerDTO dto = mapper.Map<AddOfficerDTO>(addOfficerVM);
+            AddOfficerDTO dto = mapper.DefaultContext.Mapper.Map<AddOfficerDTO>(addOfficerVM);
             _userService.CreateAndUpdateOfficer(dto);
             ShowToaster("Officer created successfully", ToasterLevel.Success);
 
@@ -152,7 +152,7 @@ namespace ShoppingOnline.Controllers
             }
             var config = new MapperConfiguration(cfg => cfg.CreateMap<AddEmployeeVM, AddEmployeeDTO>());
             var mapper = new Mapper(config);
-            AddEmployeeDTO dto = mapper.Map<AddEmployeeDTO>(addEmployeeVM);
+            AddEmployeeDTO dto = mapper.DefaultContext.Mapper.Map<AddEmployeeDTO>(addEmployeeVM);
             _userService.CreateAndUpdateEmployee(dto);
             ShowToaster("Employee created successfully", ToasterLevel.Success);
 
@@ -173,7 +173,7 @@ namespace ShoppingOnline.Controllers
             }
             var config = new MapperConfiguration(cfg => cfg.CreateMap<AddSuppliersVM, AddSupplierDTO>());
             var mapper = new Mapper(config);
-            AddSupplierDTO dto = mapper.Map<AddSupplierDTO>(addSuppliersVM);
+            AddSupplierDTO dto = mapper.DefaultContext.Mapper.Map<AddSupplierDTO>(addSuppliersVM);
             _userService.CreateAndUpdateSuppplier(dto);
             ShowToaster("Supplier created successfully", ToasterLevel.Success);
 
@@ -196,7 +196,7 @@ namespace ShoppingOnline.Controllers
             }
             var config = new MapperConfiguration(cfg => cfg.CreateMap<AddProductVM, AddProductDTO>());
             var mapper = new Mapper(config);
-            AddProductDTO dto = mapper.Map<AddProductDTO>(addProductVM);
+            AddProductDTO dto = mapper.DefaultContext.Mapper.Map<AddProductDTO>(addProductVM);
             dto.ImagePath = UploadedFile(addProductVM);
             _userService.CreateAndUpdateProduct(dto);
             ShowToaster("Product created successfully", ToasterLevel.Success);
@@ -235,7 +235,7 @@ namespace ShoppingOnline.Controllers
             }
             var config = new MapperConfiguration(cfg => cfg.CreateMap<AddPromotersVM, AddPromotersDTO>());
             var mapper = new Mapper(config);
-            AddPromotersDTO dto = mapper.Map<AddPromotersDTO>(addPromotersVM);
+            AddPromotersDTO dto = mapper.DefaultContext.Mapper.Map<AddPromotersDTO>(addPromotersVM);
             _userService.CreateAndUpdatePromoter(dto);
             ShowToaster("Promoter created successfully", ToasterLevel.Success);
 

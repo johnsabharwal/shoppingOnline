@@ -76,7 +76,7 @@ namespace ShoppingOnline.Controllers
             ViewBag.Class = "inner-page";
             var config = new MapperConfiguration(cfg => cfg.CreateMap<RegisterCustomerVM, RegisterCustomerDTO>());
             var mapper = new Mapper(config);
-            RegisterCustomerDTO dto = mapper.Map<RegisterCustomerDTO>(registerCustomer);
+            RegisterCustomerDTO dto = mapper.DefaultContext.Mapper.Map<RegisterCustomerDTO>(registerCustomer);
             var customer = _customerService.RegisterCustomer(dto);
             if (customer != null)
             {
