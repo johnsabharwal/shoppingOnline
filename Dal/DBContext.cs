@@ -26,6 +26,7 @@ namespace Dal
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<OrderStatus> OrderStatus { get; set; }
         public DbSet<EmailVerification> EmailVerification { get; set; }
+        public DbSet<CardDetails> CardDetails { get; set; }
 
     }
 }

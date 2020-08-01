@@ -31,5 +31,7 @@ namespace Dal.Interface
         IEnumerable<int> GetOrdersId();
         IEnumerable<GetOrderDTO> GetOrders(int companyId);
         void UpdateOrder(int orderId, int statusId);
+        bool SaveCard(int userId, string cardno, string expiry, string cvv);
+        string TrackOrder(int orderId);
     }
 }

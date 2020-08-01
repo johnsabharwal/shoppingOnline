@@ -50,8 +50,11 @@ namespace Dal.Implementation
                     Email = dto.EmailId
                 });
                 dBContext.SaveChanges();
-                var link = "https://localhost:44397/Account/VerifyEmail?email="+ dto.EmailId+"&code="+ code;
-                _emailSenderService.SendEmail(dto.EmailId, dto.UserName, "Your are register successfully", link, "https://pbs.twimg.com/media/Ed0u4lSVoAAcPVN?format=png&name=small");
+                var link = "https://localhost:44397/Account/VerifyEmail?email=" + dto.EmailId + "&code=" + code;
+                if (_emailSenderService != null)
+                {
+                    _emailSenderService.SendEmail(dto.EmailId, dto.UserName, "Your are register successfully", link, "https://pbs.twimg.com/media/Ed0u4lSVoAAcPVN?format=png&name=small");
+                }
                 return customer;
             }
             else

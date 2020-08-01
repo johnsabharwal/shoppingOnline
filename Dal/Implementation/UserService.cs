@@ -116,6 +116,14 @@ namespace Dal.Implementation
                 dBContext.SaveChanges();
             }
         }
+
+        public string TrackOrder(int orderId)
+        {
+            int? statusId = dBContext.Orders.FirstOrDefault(x => x.Id == orderId)?.OrderStatusId;
+            var enumDisplayStatus = (EnumOrderStatus)statusId;
+            return enumDisplayStatus.ToString();
+        }
+
         public IEnumerable<Officer> GetOfficers(int companyId)
         {
             return dBContext.Officers.Where(x => x.CompanyId == companyId);
@@ -253,7 +261,7 @@ namespace Dal.Implementation
             }
         }
 
-     
+
 
         public IEnumerable<Employee> GetEmployees(int companyId)
         {
@@ -268,13 +276,13 @@ namespace Dal.Implementation
         {
             return dBContext.Promoters.Where(x => x.CompanyId == companyId);
         }
-       
+
 
         public IEnumerable<Product> GetProducts(int companyId, string search, string filter)
         {
             if (companyId == 0)
             {
-                var query= dBContext.Products.Where(x => string.IsNullOrEmpty(search) || x.ProductName.Contains(search)).AsQueryable();
+                var query = dBContext.Products.Where(x => string.IsNullOrEmpty(search) || x.ProductName.Contains(search)).AsQueryable();
                 switch (filter?.ToLower())
                 {
                     case "popular":
@@ -342,11 +350,30 @@ namespace Dal.Implementation
                     Quantity = item.Quantity
                 });
             }
+
             dBContext.SaveChanges();
+
             return order.Id;
 
         }
 
+        public bool SaveCard(int userId, string cardno, string expiry, string cvv)
+        {
+            var data = dBContext.CardDetails.FirstOrDefault(x => x.CustomerId == userId && x.CardNo.Contains(cardno));
+            if (data == null)
+            {
+                dBContext.CardDetails.Add(new CardDetails()
+                {
+                    CustomerId = userId,
+                    CardNo = cardno,
+                    CardExpiry = expiry,
+                    CardCvv = cvv,
+                });
+                dBContext.SaveChanges();
+            }
+
+            return true;
+        }
         public IEnumerable<GetOrderDTO> GetOrdersByCustomerId(int customerId)
         {
             var result = from order in dBContext.Orders

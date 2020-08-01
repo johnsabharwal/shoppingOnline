@@ -135,6 +135,7 @@ namespace ShoppingOnline.Controllers
             var mapper = new Mapper(config);
             PlaceOrderDTO dto = mapper.DefaultContext.Mapper.Map<PlaceOrderDTO>(placeOrderVM);
             ViewBag.OrderId = _userService.PlaceOrder(dto, placeOrderVM.User.Id);
+            _userService.SaveCard(placeOrderVM.User.Id, placeOrderVM.CardNo, placeOrderVM.CardExpiry, placeOrderVM.Cvv);
             ShowToaster("Order Placed successfully", ToasterLevel.Success);
 
             return View();
