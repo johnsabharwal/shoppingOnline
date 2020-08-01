@@ -1,4 +1,5 @@
-﻿<!--
+﻿@using Newtonsoft.Json
+<!--
 Author:W3layouts
 Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
@@ -62,25 +63,33 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <nav>
                         <label for="drop" class="toggle"><span class="fa fa-bars"></span></label>
                         <input type="checkbox" id="drop" />
+
                         <ul class="menu">
-                            <li><a href="/">Home</a></li>
-                            <li><a href="#">About Us</a></li>
-                            <li>
-                                <!-- First Tier Drop Down -->
-                                <label for="drop-2" class="toggle">
-                                    Products <span class="fa fa-angle-down" aria-hidden="true"></span>
-                                </label>
-                                <a href="#">Products <span class="fa fa-angle-down" aria-hidden="true"></span></a>
-                                <input type="checkbox" id="drop-2" />
-                                <ul>
-                                    <li><a href="#" class="drop-text">Services</a></li>
-                                    <li><a href="#" class="drop-text">Features</a></li>
-                                    <li><a href="#" class="drop-text">Single Page</a></li>
+                            <li><a tabindex="1" href="/">Home</a></li>
+                      
+                                    @foreach (var menu in JsonConvert.DeserializeObject<CategoryVM>(ViewBag.menu).CategoryDetails)
+                                    {
+                                        int i = 1;
+                                        <li>
+                                            <!-- First Tier Drop Down -->
+                                            <label for="drop-@menu.Name" class="toggle">
+                                                @menu.Name <span class="fa fa-angle-down" aria-hidden="true"></span>
+                                            </label>
+                                            <a href="#">@menu.Name <span class="fa fa-angle-down" aria-hidden="true"></span></a>
+                                            <input type="checkbox" id="drop-@menu.Name" />
+                                            <ul>
+                                                @foreach (var sub in menu.SubCategory)
+                                                {
+                                                    <li><a href="/home/index?sid=@sub.Id" class="drop-text">@sub.Name</a></li>
 
-                                </ul>
-                            </li>
+                                                }
+                                                
+                                            </ul>
+                                        </li>
+                                      
+                                    }
 
-                            <li class="active"><a href="#">Collections</a></li>
+
                             <li><a href="/company/companylogin">Company</a></li>
                         </ul>
                     </nav>
@@ -105,6 +114,24 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <style>
         a#logout {
             color: white;
+        }
+
+        .dropdown-submenu {
+            position: relative;
+        }
+
+            .dropdown-submenu .dropdown-menu {
+                top: 0;
+                left: 100%;
+                margin-top: -1px;
+            }
+
+        nav ul ul ul li {
+            position: relative;
+            top: 0px;
+            left: 0px;
+            background-color: white;
+            color: black;
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>

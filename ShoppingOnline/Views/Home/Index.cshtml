@@ -11,7 +11,7 @@
             </div>
             <div class="col-md-4">
                 Sort
-                <select class="form-control" id="ddlFilter" >
+                <select class="form-control" id="ddlFilter">
                     <option value="Popular">Most Popular</option>
                     <option value="Frequent">Most Frequent</option>
                     <option value="Low">Low To High</option>
@@ -41,11 +41,28 @@
                                 </div>
                             </div>
                             <ul class="stars">
-                                <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
-                                <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
-                                <li><a href="#"><span class="fa fa-star-half-o" aria-hidden="true"></span></a></li>
-                                <li><a href="#"><span class="fa fa-star-half-o" aria-hidden="true"></span></a></li>
-                                <li><a href="#"><span class="fa fa-star-o" aria-hidden="true"></span></a></li>
+                                @if (product.Reviews != null)
+                                {
+                                    @for (int i = 1; i <= (int)product.Reviews.Stars; i++)
+                                    {
+                                        <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
+                                    }
+                                    @for (int i = 1; i <= 5 - (int)product.Reviews.Stars; i++)
+                                    {
+                                        <li><a href="#"><span class="fa fa-star-o" aria-hidden="true"></span></a></li>
+
+                                    }
+                                }
+                                else
+                                {
+                                    @for (int i = 0; i < 5; i++)
+                                    {
+                                        <li><a href="#"><span class="fa fa-star-o" aria-hidden="true"></span></a></li>
+
+                                    }
+                                }
+
+
                             </ul>
                         </div>
                     </div>

@@ -114,7 +114,7 @@ namespace Services.Tests
             });
             _dbContext.SaveChanges();
             var userService = new UserService(_dbContext);
-            var data = userService.GetProducts(0, "iphone", "");
+            var data = userService.GetProducts(0, "iphone", "",0);
             Assert.NotNull(data);
             Assert.Contains(data.ToList(), x => x.ProductName.Contains("iphone"));
         }
@@ -205,7 +205,7 @@ namespace Services.Tests
                 Price = 500,
                 SubCategoryId = 1
             });
-            var result = userService.GetProducts(1, "", "");
+            var result = userService.GetProducts(1, "", "",0);
             Assert.True(result.ToList().Any());
             Assert.Contains(result.ToList(), x => x.ProductName.Contains("Samsung"));
         }

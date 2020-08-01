@@ -45,6 +45,6 @@ namespace ShoppingOnline.Models
         public int ProductId { get; set; }
         public string UploadPath { get; set; }
 
-
+        public ReviewVM Reviews = new ReviewVM();
     }
 }

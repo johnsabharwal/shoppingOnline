@@ -8,6 +8,7 @@ using Dal.DTO;
 using Dal.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using ShoppingOnline.Models;
 
 namespace ShoppingOnline.Controllers
@@ -21,12 +22,15 @@ namespace ShoppingOnline.Controllers
         public AccountController(ICustomerService customerService,
             IMasterDataService masterDataService)
         {
+            base._masterDataService = masterDataService;
             _customerService = customerService;
             _masterDataService = masterDataService;
         }
 
         public IActionResult Login()
         {
+            ViewBag.menu = JsonConvert.SerializeObject(GetCategory());
+
             return View();
         }
         public IActionResult UserLogin(string emailId, string password)
@@ -63,6 +67,7 @@ namespace ShoppingOnline.Controllers
                 Text = x.Name,
                 Value = x.Id.ToString()
             }).ToList();
+            ViewBag.menu = JsonConvert.SerializeObject(GetCategory());
             return View(registerCustomerVM);
         }
 

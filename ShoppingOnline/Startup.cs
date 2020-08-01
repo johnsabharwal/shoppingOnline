@@ -36,6 +36,9 @@ namespace ShoppingOnline
             services.AddScoped<IEmailSenderService, EmailSenderService>();
             services.AddRazorPages()
                 .AddRazorRuntimeCompilation();
+            services.AddHttpContextAccessor();
+            services.AddMvc();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

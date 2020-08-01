@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using ShoppingOnline.Models;
 
 namespace ShoppingOnline.Controllers
@@ -25,22 +26,26 @@ namespace ShoppingOnline.Controllers
             IWebHostEnvironment hostEnvironment,
             IMasterDataService masterDataService)
         {
+            base._masterDataService = masterDataService;
             _userService = userService;
             webHostEnvironment = hostEnvironment;
             _masterDataService = masterDataService;
         }
 
-        public IActionResult Index(string search, string filter, int page = 1)
+        public IActionResult Index(string search, string filter, int sid,int page = 1)
         {
             GetProducts getProducts = new GetProducts();
             ViewBag.Class = "";
-            var products = getProducts.products = _userService.GetProducts(0, search, filter).Select(x => new AddProductVM()
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<ReviewVM, ReviewDto>());
+            var mapper = new Mapper(config);
+            var products = getProducts.products = _userService.GetProducts(0, search, filter,sid).Select(x => new AddProductVM()
             {
                 UploadPath = System.IO.File.Exists(Path.Combine(webHostEnvironment.WebRootPath, "images/" + x.ImagePath)) ? "/images/" + x.ImagePath : "/images/noimage.png",
                 ProductName = x.ProductName,
                 ProductId = x.Id,
                 Price = x.Price.ToString(),
-                DiscountPrice = (x.Price - x.Price * x.Discount / 100).ToString()
+                DiscountPrice = (x.Price - x.Price * x.Discount / 100).ToString(),
+                Reviews = mapper.DefaultContext.Mapper.Map<ReviewVM>(_userService.GetProductReview(x.Id))
             }).ToList();
             getProducts.total = products.Count();
             getProducts.page = page;
@@ -48,13 +53,18 @@ namespace ShoppingOnline.Controllers
             ViewBag.filter = filter ?? "Popular";
             ViewBag.search = search;
             getProducts.products = products.Skip((page - 1) * 12).Take(12).ToList();
-
+            ViewBag.menu =JsonConvert.SerializeObject(GetCategory());
             return View(getProducts);
         }
 
         public IActionResult Product(int id)
         {
+
             var product = _userService.GetProductById(id);
+            var review = _userService.GetProductReview(id);
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<ReviewDto, ReviewVM>());
+            var mapper = new Mapper(config);
+            ReviewVM reviewMap = mapper.DefaultContext.Mapper.Map<ReviewVM>(review);
             AddProductVM vm = new AddProductVM()
             {
                 UploadPath =
@@ -66,21 +76,14 @@ namespace ShoppingOnline.Controllers
                 Price = product.Price.ToString(),
                 DiscountPrice = (product.Price - product.Price * product.Discount / 100).ToString(),
                 Description = product.Description,
+                Reviews = reviewMap
             };
-            ViewBag.SimilarProducts = _userService.GetProductByCategoryId(product.SubCategoryId).Select(x => new AddProductVM()
-            {
-                UploadPath = System.IO.File.Exists(Path.Combine(webHostEnvironment.WebRootPath, "images/" + x.ImagePath))
-                    ? "/images/" + x.ImagePath
-                    : "/images/noimage.png",
-                ProductName = product.ProductName,
-                ProductId = product.Id,
-                Price = product.Price.ToString(),
-                DiscountPrice = (product.Price - product.Price * product.Discount / 100).ToString(),
-            }).ToList();
+            ViewBag.menu = JsonConvert.SerializeObject(GetCategory());
             return View(vm);
         }
         public IActionResult Checkout()
         {
+            ViewBag.menu = JsonConvert.SerializeObject(GetCategory());
             return View();
         }
         public IActionResult PlaceOrder(int userid)
@@ -105,6 +108,7 @@ namespace ShoppingOnline.Controllers
                 Text = x.Name,
                 Value = x.Id.ToString()
             }).ToList();
+            ViewBag.menu = JsonConvert.SerializeObject(GetCategory());
 
             return View(placeOrderVM);
         }
@@ -126,6 +130,8 @@ namespace ShoppingOnline.Controllers
                 Description = x.Description.ToString(),
                 DiscountPrice = (x.Price - x.Price * x.Discount / 100).ToString()
             }).ToList();
+            ViewBag.menu = JsonConvert.SerializeObject(GetCategory());
+
             return Json(products);
         }
 
@@ -137,8 +143,18 @@ namespace ShoppingOnline.Controllers
             ViewBag.OrderId = _userService.PlaceOrder(dto, placeOrderVM.User.Id);
             _userService.SaveCard(placeOrderVM.User.Id, placeOrderVM.CardNo, placeOrderVM.CardExpiry, placeOrderVM.Cvv);
             ShowToaster("Order Placed successfully", ToasterLevel.Success);
-
+            ViewBag.menu = JsonConvert.SerializeObject(GetCategory());
             return View();
+        }
+
+        public IActionResult GiveRating(int UserId, int givenStar, string review, int productId)
+        {
+            _userService.GiveRating(UserId, givenStar, review, productId);
+
+            ShowToaster("Rating  given successfully", ToasterLevel.Success);
+            ViewBag.menu = JsonConvert.SerializeObject(GetCategory());
+
+            return RedirectToAction("Product", new { id = productId });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Dal.DTO;
 using Dal.Entities;
+using SubCategory = Dal.Entities.SubCategory;
 
 namespace Dal.Interface
 {
@@ -15,5 +17,6 @@ namespace Dal.Interface
         IEnumerable<Category> GetCategory();
         IEnumerable<State> GetStates( int countryId);
         IEnumerable<OrderStatus> GetOrderStatus();
+        CategoryDTO GetAllCategories();
     }
 }

@@ -241,7 +241,7 @@ nav a:hover {
  * and giving it a position of absolute */
 nav ul ul {
     display: none;
-    position: absolute;
+    position: fixed;
     top: 30px;
     background: #fff;
     padding: 10px;

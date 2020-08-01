@@ -278,11 +278,11 @@ namespace Dal.Implementation
         }
 
 
-        public IEnumerable<Product> GetProducts(int companyId, string search, string filter)
+        public IEnumerable<Product> GetProducts(int companyId, string search, string filter, int sid)
         {
             if (companyId == 0)
             {
-                var query = dBContext.Products.Where(x => string.IsNullOrEmpty(search) || x.ProductName.Contains(search)).AsQueryable();
+                var query = dBContext.Products.Where(x => x.SubCategoryId.Equals(sid) || x.ProductName.Contains(search) || (sid == 0 && string.IsNullOrEmpty(search))).AsQueryable();
                 switch (filter?.ToLower())
                 {
                     case "popular":
@@ -311,6 +311,46 @@ namespace Dal.Implementation
         public Product GetProductById(int id)
         {
             return dBContext.Products.Single(x => x.Id == id);
+        }
+        public ReviewDto GetProductReview(int id)
+        {
+            var result = from review in dBContext.Reviews
+                         join customer in dBContext.Customers on review.CustomerId equals customer.Id
+                         where review.ProductId.Equals(id)
+                         select new
+                         {
+                             review = review,
+                             customer = customer,
+                         };
+            var star = result.ToList().Count > 0 ? result.Select(x => x.review).Average(y => y.Star) : 0;
+            var comments = result.Select(x => new Comment()
+            {
+                CustomerName = x.customer.Name,
+                CustomerId = x.customer.Id,
+                ReviewDetail = x.review.Comment
+            }).ToList();
+            var data = result.Select(x => new ReviewDto()
+            {
+                Stars = star,
+                Comments = comments
+            }).FirstOrDefault();
+            return data;
+        }
+
+        public void GiveRating(int userId, int givenStar, string review, int productId)
+        {
+            if (!dBContext.Reviews.Any(x => x.ProductId == productId && x.CustomerId == userId))
+            {
+                dBContext.Reviews.Add(new Review()
+                {
+                    CustomerId = userId,
+                    Star = givenStar,
+                    ProductId = productId,
+                    Comment = review,
+                    CreateDate = DateTime.Now,
+                });
+                dBContext.SaveChanges();
+            }
         }
 
         public IEnumerable<Product> GetProductByCategoryId(int subCategoryId)
