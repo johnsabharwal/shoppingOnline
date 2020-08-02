@@ -22,52 +22,60 @@
 
         <!--/row-->
         <div class="row shop-wthree-info text-center">
-            @foreach (var product in Model.products)
+            @if (Model.products.Count > 0)
             {
-                <div class="col-lg-3 shop-info-grid text-center mt-4">
-                    <div class="product-shoe-info shoe">
-                        <div class="men-thumb-item">
-                            <img src="@(product.UploadPath)" class="img-fluid" alt="">
+                @foreach (var product in Model.products)
+                {
+                    <div class="col-lg-3 shop-info-grid text-center mt-4">
+                        <div class="product-shoe-info shoe">
+                            <div class="men-thumb-item">
+                                <img src="@(product.UploadPath)" class="img-fluid" alt="">
 
-                        </div>
-                        <div class="item-info-product">
-                            <h4>
-                                <a href="/home/product?id=@product.ProductId">@product.ProductName</a>
-                            </h4>
-
-                            <div class="product_price">
-                                <div class="grid-price">
-                                    <span class="money"><span class="line">$@product.Price</span> $@product.DiscountPrice</span>
-                                </div>
                             </div>
-                            <ul class="stars">
-                                @if (product.Reviews != null)
-                                {
-                                    @for (int i = 1; i <= (int)product.Reviews.Stars; i++)
+                            <div class="item-info-product">
+                                <h4>
+                                    <a href="/home/product?id=@product.ProductId">@product.ProductName</a>
+                                </h4>
+
+                                <div class="product_price">
+                                    <div class="grid-price">
+                                        <span class="money"><span class="line">$@product.Price</span> $@product.DiscountPrice</span>
+                                    </div>
+                                </div>
+                                <ul class="stars">
+                                    @if (product.Reviews != null)
                                     {
-                                        <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
+                                        @for (int i = 1; i <= (int)product.Reviews.Stars; i++)
+                                        {
+                                            <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
+                                        }
+                                        @for (int i = 1; i <= 5 - (int)product.Reviews.Stars; i++)
+                                        {
+                                            <li><a href="#"><span class="fa fa-star-o" aria-hidden="true"></span></a></li>
+
+                                        }
                                     }
-                                    @for (int i = 1; i <= 5 - (int)product.Reviews.Stars; i++)
+                                    else
                                     {
-                                        <li><a href="#"><span class="fa fa-star-o" aria-hidden="true"></span></a></li>
+                                        @for (int i = 0; i < 5; i++)
+                                        {
+                                            <li><a href="#"><span class="fa fa-star-o" aria-hidden="true"></span></a></li>
 
+                                        }
                                     }
-                                }
-                                else
-                                {
-                                    @for (int i = 0; i < 5; i++)
-                                    {
-                                        <li><a href="#"><span class="fa fa-star-o" aria-hidden="true"></span></a></li>
-
-                                    }
-                                }
 
 
-                            </ul>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
             }
+            else
+            {
+                <img class="img-fluid" src="/images/no-pro.png" />
+            }
+
 
         </div>
 

@@ -151,7 +151,7 @@ namespace ShoppingOnline.Controllers
         {
             _userService.GiveRating(UserId, givenStar, review, productId);
 
-            ShowToaster("Rating  given successfully", ToasterLevel.Success);
+          //  ShowToaster("Rating  given successfully", ToasterLevel.Success);
             ViewBag.menu = JsonConvert.SerializeObject(GetCategory());
 
             return RedirectToAction("Product", new { id = productId });
