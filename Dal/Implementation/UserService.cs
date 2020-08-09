@@ -6,6 +6,7 @@ using Dal.DTO;
 using Dal.Entities;
 using Dal.Enum;
 using Dal.Interface;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace Dal.Implementation
@@ -282,7 +283,7 @@ namespace Dal.Implementation
         {
             if (companyId == 0)
             {
-                var query = dBContext.Products.Where(x => x.SubCategoryId.Equals(sid) || x.ProductName.Contains(search) || (sid == 0 && string.IsNullOrEmpty(search))).AsQueryable();
+                var query = dBContext.Products.Where(x => x.IsActive && x.SubCategoryId.Equals(sid) || x.ProductName.Contains(search) || (sid == 0 && string.IsNullOrEmpty(search))).AsQueryable();
                 switch (filter?.ToLower())
                 {
                     case "popular":
@@ -304,13 +305,13 @@ namespace Dal.Implementation
             }
             else
             {
-                return dBContext.Products.Where(x => x.CompanyId == companyId);
+                return dBContext.Products.Where(x => x.CompanyId == companyId && x.IsActive);
             }
         }
 
         public Product GetProductById(int id)
         {
-            return dBContext.Products.Single(x => x.Id == id);
+            return dBContext.Products.SingleOrDefault(x => x.Id == id);
         }
         public ReviewDto GetProductReview(int id)
         {
@@ -355,12 +356,12 @@ namespace Dal.Implementation
 
         public IEnumerable<Product> GetProductByCategoryId(int subCategoryId)
         {
-            return dBContext.Products.Where(x => x.SubCategoryId == subCategoryId).Distinct().Take(4);
+            return dBContext.Products.Where(x => x.SubCategoryId == subCategoryId && x.IsActive).Distinct().Take(4);
         }
 
         public IEnumerable<Product> GetProductsByIds(List<string> pIds)
         {
-            return dBContext.Products.Where(x => pIds.Contains(x.Id.ToString()));
+            return dBContext.Products.Where(x => pIds.Contains(x.Id.ToString()) && x.IsActive);
         }
 
         public Customer GetUserById(int userid)
@@ -426,7 +427,7 @@ namespace Dal.Implementation
                              customer = customer,
                              status = status,
                          };
-            return result.Select(x => new GetOrderDTO()
+            var data = result.Select(x => new GetOrderDTO()
             {
                 OrderId = x.order.Id,
                 OrderStatusType = x.status.Name,
@@ -434,10 +435,25 @@ namespace Dal.Implementation
                 OrderDate = x.order.OrderDate.ToShortDateString(),
                 PaymentType = x.order.PaymentType,
                 CustomerName = x.customer.Name,
-                Total = x.order.Total
+                Total = x.order.Total,
             }).ToList();
+            foreach (var item in data)
+            {
+                item.Product = GetProduct(item.OrderId);
+            }
+            return data;
         }
 
+        public string GetProduct(int orderId)
+        {
+            var od = dBContext.OrderDetails.Where(x => x.OrderId == orderId).ToList();
+            var product = "";
+            foreach (var item in od)
+            {
+                product += dBContext.Products.FirstOrDefault(x => x.Id == item.ProductId)?.ProductName + ",";
+            }
+            return product?.TrimEnd(',');
+        }
         public IEnumerable<int> GetOrdersId()
         {
             return dBContext.Orders.Select(x => x.Id).ToList();
@@ -484,6 +500,35 @@ namespace Dal.Implementation
             var order = dBContext.Orders.FirstOrDefault(x => x.Id == orderId);
             order.OrderStatusId = statusId;
             dBContext.SaveChanges();
+        }
+
+        public void DeleteProduct(int productId)
+        {
+            var product = dBContext.Products.First(x => x.Id == productId);
+            product.IsActive = false;
+            dBContext.SaveChanges();
+        }
+
+        public Customer UpdateCustomer(RegisterCustomerDTO dto)
+        {
+            if (dto.Id != 0)
+            {
+                var customer = dBContext.Customers.FirstOrDefault(x => x.Id.Equals(dto.Id));
+                customer.Address = dto.Address;
+                customer.ContactNumber = dto.Contact;
+                customer.Password = dto.Password?? customer.Password;
+                customer.Name = dto.UserName;
+                customer.CountryId = dto.CountryId;
+                customer.StateId = dto.StateId;
+                customer.Username = dto.UserName;
+                customer.PinCode = dto.Pincode;
+                dBContext.SaveChanges();
+                return customer;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

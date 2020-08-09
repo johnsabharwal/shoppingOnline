@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Dal.DTO;
 using Dal.Interface;
+using Dal.Migrations;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -44,13 +45,13 @@ namespace ShoppingOnline.Controllers
         {
             var result = _userService.CompanyLogin(emailId, password);
 
-            if (result !=null)
+            if (result != null)
             {
                 ShowToaster("Welcome", ToasterLevel.Success);
                 TempData["isLogin"] = 1;
                 TempData["cid"] = result.Id;
                 TempData["companyname"] = result.Name;
-                return RedirectToAction("CompanyDashboard",new { companyId = result.Id });
+                return RedirectToAction("CompanyDashboard", new { companyId = result.Id });
             }
             else
             {
@@ -179,11 +180,27 @@ namespace ShoppingOnline.Controllers
 
             return RedirectToAction("Suppliers", "Company", new { companyId = dto.CompanyId });
         }
-        public IActionResult Products(int companyId)
+        public IActionResult Products(int companyId, int productId)
         {
             AddProductVM addProductVM = new AddProductVM();
             addProductVM.CompanyId = companyId;
             addProductVM.Category = _masterDataService.GetCategory().Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name });
+            var product = _userService.GetProductById(productId);
+            if (product != null)
+            {
+                addProductVM.UploadPath =
+                    System.IO.File.Exists(Path.Combine(webHostEnvironment.WebRootPath, "images/" + product.ImagePath))
+                        ? "/images/" + product.ImagePath
+                        : "/images/noimage.png";
+                addProductVM.ProductName = product.ProductName;
+                addProductVM.ProductId = product.Id;
+                addProductVM.Price = product.Price.ToString();
+                addProductVM.DiscountPrice = (product.Price - product.Price * product.Discount / 100).ToString();
+                addProductVM.Description = product.Description;
+                addProductVM.ProductCode = product.ProductCode;
+                addProductVM.Discount = product.Discount.ToString();
+
+            }
             return View(addProductVM);
         }
         [HttpPost]
@@ -199,9 +216,19 @@ namespace ShoppingOnline.Controllers
             AddProductDTO dto = mapper.DefaultContext.Mapper.Map<AddProductDTO>(addProductVM);
             dto.ImagePath = UploadedFile(addProductVM);
             _userService.CreateAndUpdateProduct(dto);
-            ShowToaster("Product created successfully", ToasterLevel.Success);
+            var status = addProductVM.ProductId == 0 ? "Created" : "Updated";
+            ShowToaster("Product " + status + " successfully", ToasterLevel.Success);
 
             return RedirectToAction("Products", "Company", new { companyId = dto.CompanyId });
+        }
+
+        public IActionResult DeleteProduct(int ProductId, int CompanyId)
+        {
+
+            _userService.DeleteProduct(ProductId);
+            ShowToaster("Product deleted successfully", ToasterLevel.Success);
+
+            return RedirectToAction("Products", "Company", new { companyId = CompanyId });
         }
 
         private string UploadedFile(AddProductVM model)
@@ -251,12 +278,12 @@ namespace ShoppingOnline.Controllers
             getOrdersVM.OrderStatus = _masterDataService.GetOrderStatus().Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name });
             return View(getOrdersVM);
         }
-        public IActionResult UpdateOrder(int orderId,int statusId,int companyId)
+        public IActionResult UpdateOrder(int orderId, int statusId, int companyId)
         {
             _userService.UpdateOrder(orderId, statusId);
             ShowToaster("Order update successfully", ToasterLevel.Success);
 
-            return RedirectToAction("Orders", new {companyId = companyId});
+            return RedirectToAction("Orders", new { companyId = companyId });
         }
     }
 }

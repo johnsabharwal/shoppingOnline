@@ -8,6 +8,11 @@ namespace Dal.Interface
 {
     public interface IUserService
     {
+        /// <summary>
+        /// This will create company
+        /// </summary>
+        /// <param name="registerCompanyDTO"></param>
+        /// <returns></returns>
         int CreateCompany(RegisterCompanyDTO registerCompanyDTO);
         Company CompanyLogin(string emailid, string password);
         void CreateAndUpdateDepartment(AddDepartmentDTO dto);
@@ -35,5 +40,7 @@ namespace Dal.Interface
         string TrackOrder(int orderId);
         ReviewDto GetProductReview(int id);
         void GiveRating(int userId, int givenStar, string review, int productId);
+        void DeleteProduct(int productId);
+        Customer UpdateCustomer(RegisterCustomerDTO dto);
     }
 }

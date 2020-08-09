@@ -15,5 +15,7 @@ namespace Dal.DTO
         public string PaymentType { get; set; }
         public string OrderStatusType { get; set; }
         public int Total { get; internal set; }
+        public string Product { get; internal set; }
+
     }
 }

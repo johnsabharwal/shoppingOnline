@@ -1,1 +1,114 @@
-﻿
+﻿@model UpdateCustomerVM
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+</div>
+<section class="banner-bottom py-5">
+    <div class="container">
+        <div class="content-grid">
+            <div class="text-center icon">
+                <span class="fa fa-user-circle-o"></span>
+            </div>
+            <div class="content-bottom">
+                <form action="/Customer/UserRegister" method="post">
+                    <div class="field-group">
+
+                        <div class="content-input-field">
+                            <input asp-for="@Model.UserName" type="text"  placeholder="User Name" required="">
+                            <input asp-for="@Model.Id" type="hidden"  placeholder="User Name" required="">
+
+                        </div>
+                    </div>
+                    <div class="field-group">
+
+                        <div class="content-input-field">
+                            <input asp-for="@Model.EmailId" readonly type="email"  placeholder="User Email" required="">
+                        </div>
+                    </div>
+                    <div class="field-group">
+
+                        <div class="content-input-field">
+                            <input asp-for="@Model.Contact" type="text"  placeholder="UserPhone" required="">
+                        </div>
+                    </div>
+                    <div class="field-group">
+                        <div class="content-input-field">
+                            <input asp-for="@Model.Password" type="Password" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="field-group">
+
+                        <div class="content-input-field" style="display: inline-flex">
+                            <label style="min-width: 50%">Country </label>       <select id="country" class="form-control" style="min-width: 200px" asp-for="@Model.CountryId" asp-items="@Model.CountryList"></select>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="field-group">
+                        <div class="content-input-field" style="display: inline-flex">
+                            <label style="min-width: 53%">State      </label>     <select id="state" asp-for="@Model.StateId" style="min-width: 200px" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="field-group">
+                        <div class="content-input-field">
+                            <input asp-for="@Model.Address" type="text" placeholder="Address">
+                        </div>
+                    </div>
+                    <div class="field-group">
+                        <div class="content-input-field">
+                            <input asp-for="@Model.Pincode" type="text" placeholder="Pincode">
+                        </div>
+                    </div>
+                    <br />
+                    <div style="color:red" asp-validation-summary="All"></div>
+
+                    <div class="content-input-field">
+                        <button type="submit" class="btn">Update</button>
+                    </div>
+                    <div class="list-login-bottom text-center mt-lg-5 mt-4">
+
+                        <a href="#" class="">By clicking Signup, I agree to your terms</a>
+
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+    <script src="~/js/jquery.validate.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#country").change(function() {
+                var id = $(this).val();
+                var state = $("#state");
+                state.empty().append('<option selected="selected" value="0" disabled = "disabled">Loading.....</option>');
+                $.ajax({
+                    type: "POST",
+                    url: "/Category/GetStates?countryId=" + id,
+                    data: '{}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function(response) {
+                        state.empty();
+                        $.each(response,
+                            function() {
+                                state.append($("<option></option>").val(this['id']).html(this['name']));
+                            });
+                    },
+                    failure: function(response) {
+                        alert(response.responseText);
+                    },
+                    error: function(response) {
+                        alert(response.responseText);
+                    }
+                });
+            });
+            $("#country").change();
+        });
+
+    </script>
+}

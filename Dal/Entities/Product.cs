@@ -16,10 +16,15 @@ namespace Dal.Entities
         public float Price { get; set; }
         public string Description { get; set; }
         public int CompanyId { get; set; }
+        public bool IsActive { get; set; }
         public SubCategory SubCategory { get; set; }
         public ICollection<Review> Reviews { get; set; }
         public ICollection<OrderDetail> OrderDetails { get; set; }
         public Company Company { get; set; }
 
+        public static implicit operator Product(bool v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

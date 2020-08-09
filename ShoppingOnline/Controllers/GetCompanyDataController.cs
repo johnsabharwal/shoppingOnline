@@ -124,6 +124,7 @@ namespace ShoppingOnline.Controllers
                 Description = x.Description,
                 UploadPath = "/images/" + x.ImagePath,
                 SubCategoryId = x.SubCategoryId,
+                ProductId = x.Id
             }).ToList().Skip(start).Take(length);
             dataTable.recordsTotal = result.Count();
             dataTable.recordsFiltered = result.Count();

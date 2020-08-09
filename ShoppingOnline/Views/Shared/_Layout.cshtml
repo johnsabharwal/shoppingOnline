@@ -30,6 +30,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- Bootstrap-Core-CSS -->
     <link rel="stylesheet" href="/css/style.css" type="text/css" media="all" />
     <!-- Style-CSS -->
+  @*  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />*@
     <!-- font-awesome-icons -->
     <link href="/css/font-awesome.css" rel="stylesheet">
 
@@ -66,31 +67,31 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
                         <ul class="menu">
                             <li><a tabindex="1" href="/">Home</a></li>
-                      
-                                    @foreach (var menu in JsonConvert.DeserializeObject<CategoryVM>(ViewBag.menu).CategoryDetails)
-                                    {
-                                        int i = 1;
-                                        <li>
-                                            <!-- First Tier Drop Down -->
-                                            <label for="drop-@menu.Name" class="toggle">
-                                                @menu.Name <span class="fa fa-angle-down" aria-hidden="true"></span>
-                                            </label>
-                                            <a href="#">@menu.Name <span class="fa fa-angle-down" aria-hidden="true"></span></a>
-                                            <input type="checkbox" id="drop-@menu.Name" />
-                                            <ul>
-                                                @foreach (var sub in menu.SubCategory)
-                                                {
-                                                    <li><a href="/home/index?sid=@sub.Id" class="drop-text">@sub.Name</a></li>
 
-                                                }
-                                                
-                                            </ul>
-                                        </li>
-                                      
-                                    }
+                            @foreach (var menu in JsonConvert.DeserializeObject<CategoryVM>(ViewBag.menu).CategoryDetails)
+                            {
+                                int i = 1;
+                                <li>
+                                    <!-- First Tier Drop Down -->
+                                    <label for="drop-@menu.Name" class="toggle">
+                                        @menu.Name <span class="fa fa-angle-down" aria-hidden="true"></span>
+                                    </label>
+                                    <a href="#">@menu.Name <span class="fa fa-angle-down" aria-hidden="true"></span></a>
+                                    <input type="checkbox" id="drop-@menu.Name" />
+                                    <ul>
+                                        @foreach (var sub in menu.SubCategory)
+                                        {
+                                            <li><a href="/home/index?sid=@sub.Id" class="drop-text">@sub.Name</a></li>
+
+                                        }
+
+                                    </ul>
+                                </li>
+
+                            }
 
 
-                            <li><a href="/company/companylogin">Company</a></li>
+                            <li id="company-link"><a href="/company/companylogin">Company</a></li>
                         </ul>
                     </nav>
                     <!-- //nav -->
@@ -132,6 +133,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             left: 0px;
             background-color: white;
             color: black;
+        }
+        #company-link{
+            display: none;   
+        }
+        @@media (min-width: 801px){
+            #company-link{
+                display: inline-block !important;    
+            }
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>

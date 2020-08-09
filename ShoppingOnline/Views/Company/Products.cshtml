@@ -16,6 +16,8 @@
             <form enctype="multipart/form-data" asp-action="AddProduct">
                 <div class="field-group">
                     <input asp-for="@Model.CompanyId" type="hidden" value="@Model.CompanyId">
+                    <input asp-for="@Model.ProductId" type="hidden" value="@Model.ProductId">
+
                     <div class="content-input-field" style="display: inline-flex">
                         <label style="min-width: 55%">Category </label>       <select id="Category" class="form-control" style="min-width: 200px" asp-for="@Model.CategoryId" asp-items="@Model.Category"></select>
                     </div>
@@ -32,7 +34,7 @@
                 <div class="field-group">
 
                     <div class="content-input-field">
-                        <input asp-for="@Model.ProductCode" type="text" value="" placeholder="Product Code" required="">
+                        <input asp-for="@Model.ProductCode" type="text"  placeholder="Product Code" required="">
                     </div>
                 </div>
 
@@ -62,7 +64,7 @@
                     <div class="custom-file">  
                         <input asp-for="@Model.ImagePath" class="custom-file-input" id="customFile" style="display: none" >  
                         <label class="btn btn-success" for="customFile">Select Image</label>  
-                        <img id="proImg" src="/images/noimage.png" style="height: 70px;width: 70px" />
+                        <img id="proImg" src="@(Model.UploadPath??"/images/noimage.png")" style="height: 70px;width: 70px" />
                     </div>  
                     
                 </div>
@@ -79,14 +81,16 @@
 
     <table id="dataTable" class="table table-striped table-bordered">
         <thead>
-            <tr>
-                <td>Image</td>
-                <td>Name</td>
-                <td>Code</td>
-                <td>Discount</td>
-                <td>Price</td>
-                <td>Description</td>
-            </tr>
+        <tr>
+            <td>Update</td>
+            <td>Delete</td>
+            <td>Image</td>
+            <td>Name</td>
+            <td>Code</td>
+            <td>Discount</td>
+            <td>Price</td>
+            <td>Description</td>
+        </tr>
         </thead>
     </table>
 </div>
@@ -111,7 +115,7 @@
             }
         }
 
-     
+
         $("#customFile").change(function(){
             readIMG(this);
         });
@@ -149,6 +153,16 @@
                 columns: [
                     {
                         "render": function (data, type, JsonResultRow, meta) {
+                            return '<a href="/company/Products?companyId=@Model.CompanyId&productId=' + JsonResultRow.productId+'" >Update</a>';
+                        }
+                    },
+                    {
+                        "render": function (data, type, JsonResultRow, meta) {
+                            return '<a href="/company/DeleteProduct?CompanyId=@Model.CompanyId&ProductId=' + JsonResultRow.productId+'" >Delete</a>';
+                        }
+                    },
+                    {
+                        "render": function (data, type, JsonResultRow, meta) {
                             return '<img src="' + JsonResultRow.uploadPath+'" class="rounded-circle" height="40" width="40" >';
                         }
                     },
@@ -157,7 +171,7 @@
                     { data: "discount" },
                     { data: "price" },
                     { data: "description" }
-                   
+
                 ],
                 ajax: function (data, callback, settings) {
                     filterValues.draw = data.draw;

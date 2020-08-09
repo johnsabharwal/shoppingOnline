@@ -11,11 +11,12 @@ namespace ShoppingOnline.Models
     {
         [Required]
         [Display(Name = "Officer Name")]
-
         public string OfficerName { get; set; }
-        [Required]
 
+        [Required]
         public int DepartmentId { get; set; }
+
+
         [Required]
         [Display(Name = "Contact Number")]
 
