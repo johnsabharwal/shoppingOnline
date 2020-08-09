@@ -10,5 +10,6 @@ namespace Dal.Interface
    {
        Customer GetCustomer(string emailId, string password);
        Customer RegisterCustomer(RegisterCustomerDTO dto);
-    }
+       Customer VerifyEmail(string email, string code);
+   }
 }

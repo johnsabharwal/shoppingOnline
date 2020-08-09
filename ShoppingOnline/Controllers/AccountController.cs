@@ -98,5 +98,24 @@ namespace ShoppingOnline.Controllers
             }
 
         }
+
+        public IActionResult VerifyEmail(string email, string code)
+        {
+            var customer = _customerService.VerifyEmail(email, code);
+            if (customer != null)
+            {
+                TempData["isLogin"] = 1;
+                TempData["uid"] = customer.Id;
+                TempData["uname"] = customer.Name;
+                ShowToaster("Email verified successfully", ToasterLevel.Success);
+                return RedirectToAction("index", "home");
+            }
+            else
+            {
+                ShowToaster("Link Invalid/Expired", ToasterLevel.Danger);
+
+                return RedirectToAction("index", "home");
+            }
+        }
     }
 }

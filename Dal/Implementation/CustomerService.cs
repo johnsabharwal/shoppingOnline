@@ -62,5 +62,14 @@ namespace Dal.Implementation
                 return null;
             }
         }
+
+        public Customer VerifyEmail(string email, string code)
+        {
+            if (dBContext.EmailVerification.Any(x => x.Email.Equals(email) && x.Code.Equals(code)))
+            {
+                return dBContext.Customers.First(x => x.EmailId.Equals(email));
+            }
+            return null;
+        }
     }
 }
