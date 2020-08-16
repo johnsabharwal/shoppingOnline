@@ -61,17 +61,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <label for="drop" class="toggle"><span class="fa fa-bars"></span></label>
                         <input type="checkbox" id="drop" />
                         <ul class="menu">
-                           <li> <a href="/company/Departments?companyId=@ViewBag.CompanyId" >Departments</a></li>
-                           <li> <a href="/company/Officers?companyId=@ViewBag.CompanyId">Officers</a>      </li>
-                           <li> <a href="/company/Employees?companyId=@ViewBag.CompanyId">Employees</a>    </li>
-                           <li> <a href="/company/Suppliers?companyId=@ViewBag.CompanyId" >Suppliers</a>    </li>
-                           <li> <a href="/company/Products?companyId=@ViewBag.CompanyId" >Products</a>      </li>
-                           <li> <a href="/company/Promoters?companyId=@ViewBag.CompanyId">Promoters</a>    </li>
-                           <li> <a href="/company/Orders?companyId=@ViewBag.CompanyId" >Orders</a>          </li>
+                            <li> <a href="/company/Departments?companyId=@ViewBag.CompanyId">Departments</a></li>
+                            <li> <a href="/company/Officers?companyId=@ViewBag.CompanyId">Officers</a>      </li>
+                            <li> <a href="/company/Employees?companyId=@ViewBag.CompanyId">Employees</a>    </li>
+                            <li> <a href="/company/Suppliers?companyId=@ViewBag.CompanyId">Suppliers</a>    </li>
+                            <li> <a href="/company/Products?companyId=@ViewBag.CompanyId">Products</a>      </li>
+                            <li> <a href="/company/Promoters?companyId=@ViewBag.CompanyId">Promoters</a>    </li>
+                            <li> <a href="/company/Orders?companyId=@ViewBag.CompanyId">Orders</a>          </li>
                         </ul>
                     </nav>
                     <!-- //nav -->
-                    
+
                     <div class="clearfix"></div>
                 </div>
             </div>
@@ -80,13 +80,72 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </div>
     @RenderBody()
 
-<div class="cpy-right text-center py-3">
-    <p>
-        © 2020 ShoppiMania. All rights reserved | Design by
-        <a href="http://w3layouts.com"> W3layouts.</a>
-    </p>
 
-</div>
+    <div class="footer_agileinfo_topf py-5">
+        <div class="container py-md-5">
+            <div class="row">
+                <div class="col-lg-3 footer_wthree_gridf mt-lg-5">
+                    <h2>
+                        <a href="index.html">
+                            <span>S</span>hoppiMania
+                        </a>
+                    </h2>
+                    <label class="sub-des2">Online Store</label>
+                </div>
+                <div class="col-lg-6 footer_wthree_gridf mt-md-0 mt-4">
+                    <ul class="footer_wthree_gridf_list">
+                        <li>
+                            <a href="/"><span class="fa fa-angle-right" aria-hidden="true"></span> Home</a>
+                        </li>
+                        <li>
+                            <a href="/account/login"><span class="fa fa-angle-right" aria-hidden="true"></span> Sign in</a>
+                        </li>
+                        <li>
+                            <a href="shop.html"><span class="fa fa-angle-right" aria-hidden="true"></span> Company Sign in</a>
+                        </li>
+
+
+                    </ul>
+                </div>
+                <div class="col-lg-3 footer_wthree_gridf mt-md-0 mt-sm-4 mt-3">
+                    <ul class="footer_wthree_gridf_list">
+                        <li>
+                            <a href="/"><span class="fa fa-angle-right" aria-hidden="true"></span> Home</a>
+                        </li>
+                        <li>
+                            <a href="/account/register"><span class="fa fa-angle-right" aria-hidden="true"></span> Sign up</a>
+                        </li>
+                        <li>
+                            <a href="/company/RegisterCompany"><span class="fa fa-angle-right" aria-hidden="true"></span> Register Company</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+            <div class="w3ls-fsocial-grid">
+                <h3 class="sub-w3ls-headf">Follow Us</h3>
+                <div class="social-ficons">
+                    <ul>
+                        <li><a href="#"><span class="fa fa-facebook"></span> Facebook</a></li>
+                        <li><a href="#"><span class="fa fa-twitter"></span> Twitter</a></li>
+                        <li><a href="#"><span class="fa fa-google"></span>Google</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="move-top text-center mt-lg-4 mt-3">
+                <a href="#home"><span class="fa fa-angle-double-up" aria-hidden="true"></span></a>
+            </div>
+        </div>
+    </div>
+    <div class="cpy-right text-center py-3">
+        <p>
+            © 2020 ShoppiMania. All rights reserved | Design by
+            <a href="http://w3layouts.com"> W3layouts.</a>
+        </p>
+
+    </div>
+    <!-- copyright -->
     <style>
         a#logout {
             color: white;
@@ -94,12 +153,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </style>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap.min.js"></script>
-<script src="~/js/jquery.validate.js"></script>
-<script src="~/js/jquery.validate.unobtrusive.js"></script>
-<script src="~/js/jquery.toaster.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap.min.js"></script>
+    <script src="~/js/jquery.validate.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/jquery.toaster.js"></script>
 
-<script>
+    <script>
     $(document).ready(function() {
         var toasterMessage = '@TempData["ToasterMessage"]';
         var toasterLevel = '@TempData["ToasterLevel"]';
@@ -129,7 +188,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             location.href = "/";
         });
     });
-</script>
+    </script>
     @*<script src="~/js/croppie.js"></script>
         <script src="~/js/profile-uploadPhotos.js"></script>
         <script src="~/js/exif.js"></script>*@
