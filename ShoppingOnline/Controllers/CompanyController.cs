@@ -10,6 +10,7 @@ using Dal.Migrations;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using ShoppingOnline.Models;
 
 namespace ShoppingOnline.Controllers
@@ -23,6 +24,7 @@ namespace ShoppingOnline.Controllers
             IMasterDataService masterDataService,
             IWebHostEnvironment hostEnvironment)
         {
+            base._masterDataService = masterDataService;
             _userService = userService;
             _masterDataService = masterDataService;
             webHostEnvironment = hostEnvironment;
@@ -33,17 +35,20 @@ namespace ShoppingOnline.Controllers
         }
         public IActionResult CompanyLogin()
         {
+            ViewBag.menu = JsonConvert.SerializeObject(GetCategory());
+
             return View();
         }
 
         public IActionResult CompanyDashboard(int companyId)
         {
             ViewBag.CompanyId = companyId;
-            return View();
+            return RedirectToAction("Products", new {companyId = companyId});
         }
         public IActionResult Login(string emailId, string password)
         {
             var result = _userService.CompanyLogin(emailId, password);
+            ViewBag.menu = JsonConvert.SerializeObject(GetCategory());
 
             if (result != null)
             {
@@ -61,6 +66,8 @@ namespace ShoppingOnline.Controllers
         }
         public IActionResult RegisterCompany()
         {
+            ViewBag.menu = JsonConvert.SerializeObject(GetCategory());
+
             CreateCompanyVM createCompanyVM = new CreateCompanyVM();
             createCompanyVM.CountryList = _masterDataService.GetCountries().Select(x => new SelectListItem()
             {
@@ -97,6 +104,8 @@ namespace ShoppingOnline.Controllers
             ViewBag.Class = "inner-page";
             AddDepartmentVM addDepartmentVM = new AddDepartmentVM();
             addDepartmentVM.CompanyId = companyId;
+            ViewBag.CompanyId = companyId;
+
             return View(addDepartmentVM);
         }
         public IActionResult CreateDepartment(AddDepartmentVM addDepartmentVM)
@@ -117,6 +126,8 @@ namespace ShoppingOnline.Controllers
 
         public IActionResult Officers(int companyId)
         {
+            ViewBag.CompanyId = companyId;
+
             AddOfficerVM addOfficerVM = new AddOfficerVM();
             addOfficerVM.CompanyId = companyId;
             addOfficerVM.DepartmentList = _masterDataService.GetDepartments(companyId).Select(x => new SelectListItem() { Text = x.DepartmentName, Value = x.Id.ToString() });
@@ -139,6 +150,8 @@ namespace ShoppingOnline.Controllers
         }
         public IActionResult Employees(int companyId)
         {
+            ViewBag.CompanyId = companyId;
+
             AddEmployeeVM addEmployeeVM = new AddEmployeeVM();
             addEmployeeVM.CompanyId = companyId;
             addEmployeeVM.DepartmentList = _masterDataService.GetDepartments(companyId).Select(x => new SelectListItem() { Text = x.DepartmentName, Value = x.Id.ToString() });
@@ -161,6 +174,8 @@ namespace ShoppingOnline.Controllers
         }
         public IActionResult Suppliers(int companyId)
         {
+            ViewBag.CompanyId = companyId;
+
             AddSuppliersVM addSuppliersVM = new AddSuppliersVM();
             addSuppliersVM.CompanyId = companyId;
             return View(addSuppliersVM);
@@ -201,6 +216,8 @@ namespace ShoppingOnline.Controllers
                 addProductVM.Discount = product.Discount.ToString();
 
             }
+            ViewBag.CompanyId = companyId;
+
             return View(addProductVM);
         }
         [HttpPost]
@@ -221,16 +238,6 @@ namespace ShoppingOnline.Controllers
 
             return RedirectToAction("Products", "Company", new { companyId = dto.CompanyId });
         }
-
-        public IActionResult DeleteProduct(int ProductId, int CompanyId)
-        {
-
-            _userService.DeleteProduct(ProductId);
-            ShowToaster("Product deleted successfully", ToasterLevel.Success);
-
-            return RedirectToAction("Products", "Company", new { companyId = CompanyId });
-        }
-
         private string UploadedFile(AddProductVM model)
         {
             string uniqueFileName = null;
@@ -247,8 +254,20 @@ namespace ShoppingOnline.Controllers
             }
             return uniqueFileName;
         }
+        public IActionResult DeleteProduct(int ProductId, int CompanyId)
+        {
+
+            _userService.DeleteProduct(ProductId);
+            ShowToaster("Product deleted successfully", ToasterLevel.Success);
+
+            return RedirectToAction("Products", "Company", new { companyId = CompanyId });
+        }
+
+        
         public IActionResult Promoters(int companyId)
         {
+            ViewBag.CompanyId = companyId;
+
             AddPromotersVM addPromotersVM = new AddPromotersVM();
             addPromotersVM.CompanyId = companyId;
             return View(addPromotersVM);
@@ -272,6 +291,8 @@ namespace ShoppingOnline.Controllers
 
         public IActionResult Orders(int companyId)
         {
+            ViewBag.CompanyId = companyId;
+
             GetOrdersVM getOrdersVM = new GetOrdersVM();
             getOrdersVM.CompanyId = companyId;
             getOrdersVM.OrderList = _userService.GetOrdersId().Select(x => new SelectListItem() { Value = x.ToString(), Text = x.ToString() });

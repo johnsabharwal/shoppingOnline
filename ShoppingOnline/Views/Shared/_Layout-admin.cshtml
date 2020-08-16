@@ -61,25 +61,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <label for="drop" class="toggle"><span class="fa fa-bars"></span></label>
                         <input type="checkbox" id="drop" />
                         <ul class="menu">
-                            <li><a href="/">Home</a></li>
-                            <li><a href="#">About Us</a></li>
-                            <li>
-                                <!-- First Tier Drop Down -->
-                                <label for="drop-2" class="toggle">
-                                    Products <span class="fa fa-angle-down" aria-hidden="true"></span>
-                                </label>
-                                <a href="#">Products <span class="fa fa-angle-down" aria-hidden="true"></span></a>
-                                <input type="checkbox" id="drop-2" />
-                                <ul>
-                                    <li><a href="#" class="drop-text">Services</a></li>
-                                    <li><a href="#" class="drop-text">Features</a></li>
-                                    <li><a href="#" class="drop-text">Single Page</a></li>
-
-                                </ul>
-                            </li>
-
-                            <li class="active"><a href="#">Collections</a></li>
-                            <li><a href="#">Contact</a></li>
+                           <li> <a href="/company/Departments?companyId=@ViewBag.CompanyId" >Departments</a></li>
+                           <li> <a href="/company/Officers?companyId=@ViewBag.CompanyId">Officers</a>      </li>
+                           <li> <a href="/company/Employees?companyId=@ViewBag.CompanyId">Employees</a>    </li>
+                           <li> <a href="/company/Suppliers?companyId=@ViewBag.CompanyId" >Suppliers</a>    </li>
+                           <li> <a href="/company/Products?companyId=@ViewBag.CompanyId" >Products</a>      </li>
+                           <li> <a href="/company/Promoters?companyId=@ViewBag.CompanyId">Promoters</a>    </li>
+                           <li> <a href="/company/Orders?companyId=@ViewBag.CompanyId" >Orders</a>          </li>
                         </ul>
                     </nav>
                     <!-- //nav -->

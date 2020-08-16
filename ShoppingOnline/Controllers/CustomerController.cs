@@ -56,6 +56,8 @@ namespace ShoppingOnline.Controllers
                 Text = x.Name,
                 Value = x.Id.ToString()
             }).ToList();
+            ViewBag.customerId = customerId;
+
             return View(vm);
         }
         public IActionResult UserRegister(UpdateCustomerVM registerCustomer)
@@ -92,6 +94,13 @@ namespace ShoppingOnline.Controllers
             ViewBag.customerId = customerId;
             return View();
         }
+        public IActionResult TrackOrders(int customerId)
+        {
+            ViewBag.menu = JsonConvert.SerializeObject(GetCategory());
+            ViewBag.customerId = customerId;
+
+            return View();
+        }
         public IActionResult Wishlist(int customerId)
         {
             ViewBag.menu = JsonConvert.SerializeObject(GetCategory());
@@ -100,9 +109,9 @@ namespace ShoppingOnline.Controllers
             return View();
         }
 
-        public JsonResult GetOrders(int customerId)
+        public JsonResult GetOrders(int customerId, int orderId = 0)
         {
-            return Json(_userService.GetOrdersByCustomerId(customerId));
+            return Json(_userService.GetOrdersByCustomerId(customerId, orderId));
         }
     }
 }

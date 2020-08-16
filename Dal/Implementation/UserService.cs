@@ -415,12 +415,12 @@ namespace Dal.Implementation
 
             return true;
         }
-        public IEnumerable<GetOrderDTO> GetOrdersByCustomerId(int customerId)
+        public IEnumerable<GetOrderDTO> GetOrdersByCustomerId(int customerId, int orderId)
         {
             var result = from order in dBContext.Orders
                          join customer in dBContext.Customers on order.CustomerId equals customer.Id
                          join status in dBContext.OrderStatus on order.OrderStatusId equals status.Id
-                         where order.CustomerId.Equals(customerId)
+                         where order.Id == orderId || order.CustomerId.Equals(customerId)
                          select new
                          {
                              order = order,
@@ -516,7 +516,7 @@ namespace Dal.Implementation
                 var customer = dBContext.Customers.FirstOrDefault(x => x.Id.Equals(dto.Id));
                 customer.Address = dto.Address;
                 customer.ContactNumber = dto.Contact;
-                customer.Password = dto.Password?? customer.Password;
+                customer.Password = dto.Password ?? customer.Password;
                 customer.Name = dto.UserName;
                 customer.CountryId = dto.CountryId;
                 customer.StateId = dto.StateId;

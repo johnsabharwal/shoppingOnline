@@ -32,7 +32,7 @@ namespace Dal.Interface
         IEnumerable<Product> GetProductsByIds(List<string> pIds);
         Customer GetUserById(int userid);
         int PlaceOrder(PlaceOrderDTO dto, int userId);
-        IEnumerable<GetOrderDTO> GetOrdersByCustomerId(int customerId);
+        IEnumerable<GetOrderDTO> GetOrdersByCustomerId(int customerId, int orderId);
         IEnumerable<int> GetOrdersId();
         IEnumerable<GetOrderDTO> GetOrders(int companyId);
         void UpdateOrder(int orderId, int statusId);
