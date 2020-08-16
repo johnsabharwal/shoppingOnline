@@ -32,13 +32,13 @@ namespace ShoppingOnline.Controllers
             _masterDataService = masterDataService;
         }
 
-        public IActionResult Index(string search, string filter, int sid,int page = 1)
+        public IActionResult Index(string search, string filter, int sid, int page = 1)
         {
             GetProducts getProducts = new GetProducts();
             ViewBag.Class = "";
             var config = new MapperConfiguration(cfg => cfg.CreateMap<ReviewVM, ReviewDto>());
             var mapper = new Mapper(config);
-            var products = getProducts.products = _userService.GetProducts(0, search, filter,sid).Select(x => new AddProductVM()
+            var products = getProducts.products = _userService.GetProducts(0, search, filter, sid).Select(x => new AddProductVM()
             {
                 UploadPath = System.IO.File.Exists(Path.Combine(webHostEnvironment.WebRootPath, "images/" + x.ImagePath)) ? "/images/" + x.ImagePath : "/images/noimage.png",
                 ProductName = x.ProductName,
@@ -53,7 +53,7 @@ namespace ShoppingOnline.Controllers
             ViewBag.filter = filter ?? "Popular";
             ViewBag.search = search;
             getProducts.products = products.Skip((page - 1) * 12).Take(12).ToList();
-            ViewBag.menu =JsonConvert.SerializeObject(GetCategory());
+            ViewBag.menu = JsonConvert.SerializeObject(GetCategory());
             return View(getProducts);
         }
 
@@ -152,12 +152,20 @@ namespace ShoppingOnline.Controllers
         {
             _userService.GiveRating(UserId, givenStar, review, productId);
 
-          //  ShowToaster("Rating  given successfully", ToasterLevel.Success);
+            //  ShowToaster("Rating  given successfully", ToasterLevel.Success);
             ViewBag.menu = JsonConvert.SerializeObject(GetCategory());
 
             return RedirectToAction("Product", new { id = productId });
         }
 
+        public IActionResult ForgotPassword(string email, bool isCustomer)
+        {
+            bool result = _userService.SendPassword(email, isCustomer);
+         //   ShowToaster(result ? "Password sent successfully.Please check your email." : "user not found", result ? ToasterLevel.Success : ToasterLevel.Danger);
+          TempData["isAdded"] = result ? 1 : 0;
+
+            return RedirectToAction(isCustomer ? "login" : "companyLogin", isCustomer ? "Account" : "Company");
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -9,11 +9,11 @@
                 <span class="fa fa-unlock-alt"></span>
             </div>
             <div class="content-bottom">
-                <form action="/Account/UserLogin" method="post" >
+                <form action="/Account/UserLogin" method="post">
                     <div class="field-group">
 
                         <div class="content-input-field">
-                            <input name="emailId" type="text"  placeholder="Email id" required="">
+                            <input name="emailId" type="text" placeholder="Email id" required="">
                         </div>
                     </div>
                     <div class="field-group">
@@ -33,16 +33,13 @@
                             </label>
                         </li>
                         <li>
-                            <a href="#" class="text-right">Forgot password?</a>
+                            <button type="button" data-toggle="modal" data-target="#forgetPassword" class="text-right btn btn-info btn-lg">Forgot password?</button>
                         </li>
                         <li class="clearfix"></li>
                     </ul>
                     <ul class="list-login-bottom">
                         <li class="">
-                            <a href="register.html" class="">Don't have an Account?</a>
-                        </li>
-                        <li class="">
-                            <a href="#" class="text-right">Need Help?</a>
+                            <a href="/account/register" class="">Don't have an Account?</a>
                         </li>
                         <li class="clearfix"></li>
                     </ul>
@@ -51,3 +48,26 @@
         </div>
     </div>
 </section>
+<partial name="_ForgotPassword" />
+
+@section scripts
+{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.toaster.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var type= '@TempData["isAdded"]';
+            if (type == '1' ) {
+            $.toaster({ priority: "success", title: 'Notice', message: "Password sent successfully.Please check your email."});
+
+            }
+            if (type == '0' ) {
+                $.toaster({ priority: "danger", title: 'Notice', message: "user not found"});
+
+            }
+            $("#isCustomer").val("true");
+        });
+    </script>
+}

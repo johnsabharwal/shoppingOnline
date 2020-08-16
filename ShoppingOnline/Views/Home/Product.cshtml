@@ -1,179 +1,96 @@
-﻿@model AddProductVM
-<section class="banner-bottom py-5">
-    <div class="container py-md-5">
-        <!-- product right -->
-        <div class="left-ads-display wthree">
-            <div class="row">
-                <div class="desc1-left col-md-6">
-                    <img src="@Model.UploadPath" class="img-fluid" alt="">
-                </div>
-                <div class="desc1-right col-md-6 pl-lg-3">
-                    <h1>@Model.ProductName</h1>
-                    <h5>Rs. @Model.DiscountPrice <span>@Model.Price</span> </h5>
-                    <div class="available mt-3">
-                        <button class="btn submit addToCart" value="@Model.ProductId">Add to Cart</button>
-                        <p>@Model.Description </p>
-                    </div>
-                </div>
-
-
-            </div>
-            <div class="row sub-para-w3pvt my-5">
-
-                <h1 class="shop-sing">Average rating</h1>
-                <br />
-                <br />
-                <ul class="stars">
-                    @if (Model.Reviews != null)
-                    {
-                        @for (int i = 1; i <= (int)Model.Reviews.Stars; i++)
-                        {
-                            <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
-                        }
-                        @for (int i = 1; i <= 5 - (int)Model.Reviews.Stars; i++)
-                        {
-                            <li><a href="#"><span class="fa fa-star-o" aria-hidden="true"></span></a></li>
-
-                        }
-                    }
-                    else
-                    {
-                        @for (int i = 0; i < 5; i++)
-                        {
-                            <li><a href="#"><span class="fa fa-star-o" aria-hidden="true"></span></a></li>
-
-                        }
-                    }
-
-                </ul>
-
-
-            </div>
-
+﻿<div width='100%' style='margin:0;padding:0!important;background-color:#f5f6f9;font-size:12.0pt;font-family:&quot;Source Sans Pro&quot;,Verdana;color:#6f727d'>
+    <center style='width:100%;background-color:#f5f6f9'>
+        <div style='max-width:600px;margin:0 auto'>
+            <table align='center' cellspacing='0' cellpadding='0' border='0' width='100%' style='margin:0 auto'>
+                <tbody>
+                    <tr>
+                        <td>
+                            <table align='center' cellspacing='0' cellpadding='0' border='0' width='100%' style='margin:0 auto'>
+                                <tbody>
+                                    <tr>
+                                        <td height='40' style='font-size:0px;line-height:0px'> &nbsp; </td>
+                                    </tr>
+                                    <tr>
+                                        <td style='background-color:#ffffff'>
+                                            <img src='[path]' alt='alt_text' border='0' style='width:100%;max-width:600px;height:auto;background:#ffffff;margin:auto;display:block;outline:none;border:none' data-image-whitelisted='' class='CToWUd a6T' tabindex='0'>
+                                            <div class='a6S' dir='ltr' style='opacity: 0.01; left: 771.6px; top: 369.8px;'>
+                                                <div id=':n8' class='T-I J-J5-Ji aQv T-I-ax7 L3 a5q' role='button' tabindex='0' aria-label='Download attachment mailer-header@2x.png' data-tooltip-class='a1V' data-tooltip='Download'>
+                                                    <div class='aSK J-J5-Ji aYr'></div>
+                                                </div>
+                                                <div id=':n9' class='T-I J-J5-Ji aQv T-I-ax7 L3 a5q' role='button' tabindex='0' aria-label='Save attachment to Drive mailer-header@2x.png' data-tooltip-class='a1V' data-tooltip='Add to Drive'>
+                                                    <div class='wtScjd J-J5-Ji aYr XG'>
+                                                        <div class='T-aT4' style='display: none;'>
+                                                            <div></div>
+                                                            <div class='T-aT4-JX'></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style='background-color:#ffffff;border-left:solid 1px #dfdfdf;border-right:solid 1px #dfdfdf'>
+                            <table border='0' width='100%' cellspacing='0' cellpadding='0'>
+                                <tbody>
+                                    <tr>
+                                        <td style='padding:0 10%;text-align:left'>
+                                            <p> Hello,Greetings of the day<br><br>Your password is gfh.</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style='font-size:0px;line-height:0px' height='25'>&nbsp;</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style='font-size:0px;line-height:0px;background-color:#ffffff;border-right:1px solid #dfdfdf;border-left:1px solid #dfdfdf' height='40'>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style='font-size:0px;line-height:0px' height='40'>&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+            <tr>
+                <td style='padding:0 65px;background-color:#ffffff'>
+                    <table cellspacing='0' cellpadding='0' border='0' width='100%'>
+                        <tbody>
+                            <tr>
+                                <td height='1' style='background-color:#ebedf2'></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td height='100%' valign='top' width='100%' style='background-color:#ffffff;border-right:solid 1px #dfdfdf;border-left:solid 1px #dfdfdf;border-bottom:solid 1px #dfdfdf'>
+                    <table cellspacing='0' cellpadding='0' border='0' width='100%'>
+                        <tbody>
+                            <tr>
+                                <td colspan='1' height='30' style='font-size:0px;line-height:0px'> &nbsp; </td>
+                            </tr>
+                            <tr>
+                                <td style='padding:0 90px'>
+                                    <p>Powered by ShoppiMania 2020. All rights reserved.©</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan='1' height='30' style='font-size:0px;line-height:0px'> &nbsp; </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td height='40' style='font-size:0px;line-height:0px'> &nbsp; </td>
+            </tr>
+            </tbody></table>
         </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="well">
-                <div class="list-group">
-                    @if (Model.Reviews!=null)
-                    {
-                        @foreach (var comment in Model.Reviews.Comments)
-                        {
-                            <a href="#" class="list-group-item ">
-
-                                <div class="col-md-12">
-                                    <h4 class="list-group-item-heading">@(comment.ReviewDetail?.Length > 20 ? comment.ReviewDetail.Substring(0, 20) : comment.ReviewDetail) (@comment.CustomerName) </h4>
-                                    <p class="list-group-item-text">
-                                        @comment.ReviewDetail
-                                    </p>
-                                </div>
-                            </a>
-                        }
-                    }
-                   
-                    <br/>
-                    <span id="btnGiveRate" style="display: none;;"><button type="button" data-toggle="modal"style="font-size: 2rem " data-target="#exampleModal" class="btn btn-success float-right" style="">Give your rating</button></span>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<!-- Modal -->
-<div class="modal " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <form class="modal-content" action="/Home/GiveRating">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Give rating</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <span id="1" star="1" class="fa fa-star checked starCheck"></span>
-                <span id="2" star="2" class="fa fa-star starCheck "></span>
-                <span id="3" star="3" class="fa fa-star  starCheck"></span>
-                <span id="4" star="4" class="fa fa-star starCheck"></span>
-                <span id="5" star="5" class="fa fa-star starCheck"></span>
-                <input type="hidden" id="GiventStar" name="givenStar" />
-                <input type="hidden" name="productId" value="@Model.ProductId" />
-                <input type="hidden" name="userid" id="hdnuserid" value="" />
-
-
-                <textarea class="form-control" rows="4" name="review"></textarea>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save changes</button>
-            </div>
-        </form>
-    </div>
+    </center>
+    <img src='' alt='' width='1' height='1' border='0' style='height:1px!important;width:1px!important;border-width:0!important;margin-top:0!important;margin-bottom:0!important;margin-right:0!important;margin-left:0!important;padding-top:0!important;padding-bottom:0!important;padding-right:0!important;padding-left:0!important' class='CToWUd'>
 </div>
-<style>
-    ul.stars li a span {
-        font-size: 2.7em;
-        color: yellow;
-        margin: 0 0.2em;
-    }
-
-    .checked {
-        color: orange;
-    }
-</style>
-@section scripts{
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script>
-        $(".starCheck").click(function() {
-            var val = $(this).attr("star");
-            $(".starCheck").removeClass("checked");
-            switch (val) {
-            case "1":
-                $("#1").addClass("checked");
-                $("#GiventStar").val(1);
-                break;
-            case "2":
-                $("#1").addClass("checked");
-                $("#2").addClass("checked");
-                $("#GiventStar").val(2);
-
-                break;
-            case "3":
-                $("#1").addClass("checked");
-                $("#2").addClass("checked");
-                $("#3").addClass("checked");
-                $("#GiventStar").val(3);
-
-                break;
-            case "4":
-                $("#1").addClass("checked");
-                $("#2").addClass("checked");
-                $("#3").addClass("checked");
-                $("#4").addClass("checked");
-                $("#GiventStar").val(4);
-
-                break;
-            case "5":
-                $("#1").addClass("checked");
-                $("#2").addClass("checked");
-                $("#3").addClass("checked");
-                $("#4").addClass("checked");
-                $("#5").addClass("checked");
-                $("#GiventStar").val(5);
-
-                break;
-            }
-        });
-
-        $(document).ready(function() {
-            var userid = localStorage.getItem("uid");
-            if (userid != null && userid != "") {
-                $("#btnGiveRate").show();
-                $("#hdnuserid").val(userid);
-            }
-
-        })
-    </script>
-}

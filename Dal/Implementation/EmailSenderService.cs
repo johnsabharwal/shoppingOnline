@@ -7,9 +7,9 @@ using Dal.Interface;
 
 namespace Dal.Implementation
 {
-  public  class EmailSenderService:IEmailSenderService
+    public class EmailSenderService : IEmailSenderService
     {
-        public bool SendEmail(string email, string name, string subject,string link,string path)
+        public bool SendEmail(string email, string name, string subject, string link, string path)
         {
 
             var template =
@@ -17,9 +17,9 @@ namespace Dal.Implementation
             var fromAddress = new MailAddress("amandeepprincesharma829@gmail.com", "AmanRenuAbdul");
             var toAddress = new MailAddress(email, email);
             const string fromPassword = "johnS@123";
-            template= template.Replace("[name]", name);
-            template= template.Replace("[verifylink]", link);
-            template=template.Replace("[path]", path);
+            template = template.Replace("[name]", name);
+            template = template.Replace("[verifylink]", link);
+            template = template.Replace("[path]", path);
 
 
             var smtp = new SmtpClient
@@ -42,6 +42,37 @@ namespace Dal.Implementation
             }
 
             return true;
+        }
+
+        public void SendPassword(string email, string password)
+        {
+            string subject = "Forget password";
+            var template =
+                "<p> Hello,Greetings of the day<br><br>Your password is " + password + ".</p>";
+            var fromAddress = new MailAddress("amandeepprincesharma829@gmail.com", "AmanRenuAbdul");
+            var toAddress = new MailAddress(email, email);
+            const string fromPassword = "johnS@123";
+
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+            };
+            using (var message = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = subject,
+                Body = template,
+                IsBodyHtml = true
+            })
+            {
+                smtp.Send(message);
+            }
+
         }
     }
 }

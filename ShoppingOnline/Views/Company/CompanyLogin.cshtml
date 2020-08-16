@@ -25,7 +25,7 @@
                     </div>
                     <ul class="list-login">
                         <li>
-                            <a href="#" class="text-right">Forgot password?</a>
+                            <button type="button" data-toggle="modal" data-target="#forgetPassword" class="text-right btn btn-info btn-lg">Forgot password?</button>
                         </li>
                         <li class="clearfix"></li>
                     </ul>
@@ -40,9 +40,31 @@
         </div>
     </div>
 </section>
+<partial name="_ForgotPassword" />
 
 <style>
     .main-sec {
         min-height: auto !important;
     }
 </style>
+@section scripts
+{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.toaster.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var type= '@TempData["isAdded"]';
+            if (type == '1' ) {
+                $.toaster({ priority: "success", title: 'Notice', message: "Password sent successfully.Please check your email."});
+
+            }
+            if (type == '0' ) {
+                $.toaster({ priority: "danger", title: 'Notice', message: "user not found"});
+
+            }
+            $("#isCustomer").val("false");
+        });
+    </script>
+}

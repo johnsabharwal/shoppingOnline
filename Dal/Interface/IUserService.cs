@@ -42,5 +42,6 @@ namespace Dal.Interface
         void GiveRating(int userId, int givenStar, string review, int productId);
         void DeleteProduct(int productId);
         Customer UpdateCustomer(RegisterCustomerDTO dto);
+        bool SendPassword(string email, in bool isCustomer);
     }
 }

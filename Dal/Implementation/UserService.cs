@@ -14,9 +14,12 @@ namespace Dal.Implementation
     public class UserService : IUserService
     {
         DBContext dBContext;
-        public UserService(DBContext db)
+        private readonly IEmailSenderService _emailSenderService;
+
+        public UserService(DBContext db, IEmailSenderService emailSenderService)
         {
             dBContext = db;
+            _emailSenderService = emailSenderService;
         }
 
         public Company CompanyLogin(string emailid, string password)
@@ -531,6 +534,31 @@ namespace Dal.Implementation
             {
                 return null;
             }
+        }
+
+        public bool SendPassword(string email, in bool isCustomer)
+        {
+            string password = "";
+                try
+            {
+                if (isCustomer)
+                {
+                    password= dBContext.Customers.First(x => x.EmailId.Equals(email)).Password;
+                }
+                else
+                {
+                    password = dBContext.Companys.First(x => x.EmailAddress.Equals(email)).Password;
+
+                }
+
+                _emailSenderService.SendPassword(email, password);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            
         }
     }
 }

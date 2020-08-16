@@ -7,5 +7,6 @@ namespace Dal.Interface
     public interface IEmailSenderService
     {
         bool SendEmail(string email, string name, string subject, string link, string path);
+        void SendPassword(string email, string password);
     }
 }
