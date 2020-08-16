@@ -77,12 +77,12 @@ namespace ShoppingOnline.Controllers
                 TempData["isLogin"] = 1;
                 TempData["uid"] = customer.Id;
                 TempData["uname"] = customer.Name;
-                ShowToaster("User updated successfully", ToasterLevel.Success);
+                ShowToaster("Profile updated successfully", ToasterLevel.Success);
                 return RedirectToAction("Profile", new { customerId = registerCustomer.Id });
             }
             else
             {
-                ShowToaster("User not updated", ToasterLevel.Danger);
+                ShowToaster("Profile not updated", ToasterLevel.Danger);
                 return RedirectToAction("Profile", new { customerId = registerCustomer.Id });
             }
 

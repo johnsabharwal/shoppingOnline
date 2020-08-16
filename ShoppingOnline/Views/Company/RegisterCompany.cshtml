@@ -46,7 +46,7 @@
                     </div>
                     <div class="field-group">
                         <div class="content-input-field">
-                            <input asp-for="@Model.Contact" type="text" placeholder="Contact Number">
+                            <input asp-for="@Model.Contact" type="text" id="txtnumber" placeholder="Contact Number">
                         </div>
                     </div>
                     <div class="field-group">
@@ -82,3 +82,15 @@
         min-height: auto !important;
     }
 </style>
+@section scripts{
+    <script>
+        $(document).ready(function() {
+            $("#txtnumber").on("keypress keyup blur",function (event) {    
+                $(this).val($(this).val().replace(/[^\d].+/, ""));
+                if ((event.which < 48 || event.which > 57)) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+}

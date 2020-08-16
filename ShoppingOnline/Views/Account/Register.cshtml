@@ -26,7 +26,7 @@
                     <div class="field-group">
 
                         <div class="content-input-field">
-                            <input asp-for="@Model.Contact" type="text" value="" placeholder="UserPhone" required="">
+                            <input asp-for="@Model.Contact" type="text" value="" id="txtnumber" placeholder="UserPhone" required="">
                         </div>
                     </div>
                     <div class="field-group">
@@ -106,6 +106,13 @@
                 });
             });
             $("#country").change();
+            $("#txtnumber").on("keypress keyup blur",function (event) {    
+                $(this).val($(this).val().replace(/[^\d].+/, ""));
+                if ((event.which < 48 || event.which > 57)) {
+                    event.preventDefault();
+                }
+            });
+
         });
        
     </script>

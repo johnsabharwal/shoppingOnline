@@ -241,6 +241,7 @@ namespace Dal.Implementation
                     product.ProductCode = dto.ProductCode;
                     product.ProductName = dto.ProductName;
                     product.ImagePath = dto.ImagePath;
+                    product.IsActive = true;
                     dBContext.SaveChanges();
                 }
             }
@@ -256,6 +257,7 @@ namespace Dal.Implementation
                     ProductCode = dto.ProductCode,
                     ProductName = dto.ProductName,
                     ImagePath = dto.ImagePath,
+                    IsActive = true
                 };
                 dBContext.Products.Add(product);
                 dBContext.SaveChanges();
