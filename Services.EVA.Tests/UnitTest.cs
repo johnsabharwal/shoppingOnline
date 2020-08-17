@@ -49,7 +49,7 @@ namespace Services.Tests
                 EmailAddress = "George@yahoo.com"
             });
             _dbContext.SaveChanges();
-            var userService = new UserService(_dbContext);
+            var userService = new UserService(_dbContext,null);
             var data = userService.CompanyLogin("George@yahoo.com", "123456");
             Assert.NotNull(data);
             Assert.Equal("George", data.Name);
@@ -57,7 +57,7 @@ namespace Services.Tests
         [Fact]
         public void Company_Register()
         {
-            var userService = new UserService(_dbContext);
+            var userService = new UserService(_dbContext, null);
             var data = userService.CreateCompany(new RegisterCompanyDTO()
             {
                 Name = "mark",
@@ -113,7 +113,7 @@ namespace Services.Tests
                 SubCategoryId = 1
             });
             _dbContext.SaveChanges();
-            var userService = new UserService(_dbContext);
+            var userService = new UserService(_dbContext,null);
             var data = userService.GetProducts(0, "iphone", "",0);
             Assert.NotNull(data);
             Assert.Contains(data.ToList(), x => x.ProductName.Contains("iphone"));
@@ -138,7 +138,7 @@ namespace Services.Tests
                 Quantity = 1,
                 ProductId = 1
             });
-            var userService = new UserService(_dbContext);
+            var userService = new UserService(_dbContext, null);
             var data = userService.PlaceOrder(new PlaceOrderDTO()
             {
                 PaymentType = "COD",
@@ -151,7 +151,7 @@ namespace Services.Tests
         public void Add_Payment_Method()
         {
 
-            var userService = new UserService(_dbContext);
+            var userService = new UserService(_dbContext, null);
             var result = userService.SaveCard(1, "15151515125254848", "may/2024", "123");
             Assert.True(result);
         }
@@ -163,7 +163,7 @@ namespace Services.Tests
                 Quantity = 1,
                 ProductId = 1
             });
-            var userService = new UserService(_dbContext);
+            var userService = new UserService(_dbContext, null);
             var data = userService.PlaceOrder(new PlaceOrderDTO()
             {
                 PaymentType = "COD",
@@ -177,7 +177,7 @@ namespace Services.Tests
         public void Add_And_Get_Officers()
         {
 
-            var userService = new UserService(_dbContext);
+            var userService = new UserService(_dbContext, null);
             userService.CreateAndUpdateOfficer(new AddOfficerDTO()
             {
                 DepartmentId = 1,
@@ -196,7 +196,7 @@ namespace Services.Tests
         public void Add_And_Get_Product()
         {
 
-            var userService = new UserService(_dbContext);
+            var userService = new UserService(_dbContext, null);
             userService.CreateAndUpdateProduct(new AddProductDTO()
             {
                 ProductName = "Samsung note 10",
@@ -213,7 +213,7 @@ namespace Services.Tests
         public void Add_And_Get_Employees()
         {
 
-            var userService = new UserService(_dbContext);
+            var userService = new UserService(_dbContext, null);
             userService.CreateAndUpdateEmployee(new AddEmployeeDTO()
             {
                 DepartmentId = 1,
@@ -231,7 +231,7 @@ namespace Services.Tests
         public void Add_And_Get_Suppliers()
         {
 
-            var userService = new UserService(_dbContext);
+            var userService = new UserService(_dbContext, null);
             userService.CreateAndUpdateSuppplier(new AddSupplierDTO()
             {
                 ContactNumber = "89595626226",
@@ -248,7 +248,7 @@ namespace Services.Tests
         public void Add_And_Get_Departments()
         {
 
-            var userService = new UserService(_dbContext);
+            var userService = new UserService(_dbContext, null);
             userService.CreateAndUpdateDepartment(new AddDepartmentDTO()
             {
                 ContactNumber = "89595626226",
